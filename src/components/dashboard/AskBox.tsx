@@ -1,7 +1,9 @@
 import { Plus, Send, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { useDashboard } from "@/lib/dashboard-store";
 
 export function AskBox() {
+  const { t } = useDashboard();
   const [value, setValue] = useState("");
   const [answer, setAnswer] = useState<string | null>(null);
 
