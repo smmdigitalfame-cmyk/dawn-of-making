@@ -58,16 +58,16 @@ function NavLink({
       to={to}
       onClick={onNavigate}
       className={cn(
-        "flex items-center gap-3 rounded-lg px-3 py-1.5 text-[13px] font-medium transition-colors",
+        "flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-[15px] font-medium transition-colors",
         active
           ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-sm"
           : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60",
       )}
     >
-      <img src={icon} alt="" className="h-[18px] w-[18px] shrink-0 object-contain" />
+      <img src={icon} alt="" className="h-[22px] w-[22px] shrink-0 object-contain" />
       <span className="flex-1 truncate">{label}</span>
       {badge && (
-        <span className="rounded-full bg-muted px-1.5 py-0.5 text-[11px] font-semibold text-muted-foreground">
+        <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-semibold text-muted-foreground">
           {badge}
         </span>
       )}
@@ -82,17 +82,17 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <NavLink key={item.to} {...item} onNavigate={onNavigate} />
       ))}
 
-      <div className="mt-4 flex items-center gap-1 px-3 text-[12px] font-medium text-muted-foreground">
+      <div className="mt-4 flex items-center gap-1 px-3.5 text-[13px] font-medium text-muted-foreground">
         Sales channels
-        <ChevronDown className="h-3.5 w-3.5" />
+        <ChevronDown className="h-4 w-4" />
       </div>
       {CHANNEL_ITEMS.map((item) => (
         <NavLink key={item.to} {...item} onNavigate={onNavigate} />
       ))}
 
-      <div className="mt-4 flex items-center gap-1 px-3 text-[12px] font-medium text-muted-foreground">
+      <div className="mt-4 flex items-center gap-1 px-3.5 text-[13px] font-medium text-muted-foreground">
         Apps
-        <ChevronDown className="h-3.5 w-3.5" />
+        <ChevronDown className="h-4 w-4" />
       </div>
       <NavLink to="/apps" label="Apps" icon={iconApps.url} onNavigate={onNavigate} />
 
@@ -108,7 +108,7 @@ export function Sidebar() {
   return (
     <>
       {/* Desktop */}
-      <aside className="fixed bottom-0 left-0 top-14 z-30 hidden w-[220px] border-r border-sidebar-border bg-sidebar lg:block">
+      <aside className="fixed bottom-0 left-0 top-[72px] z-30 hidden w-[300px] border-r border-sidebar-border bg-sidebar lg:block">
         <SidebarContent />
       </aside>
 
