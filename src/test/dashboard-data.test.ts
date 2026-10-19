@@ -32,6 +32,12 @@ describe("ranges", () => {
     expect(a.points).toEqual(b.points);
   });
 
+  it("averages conversion rate instead of summing it", () => {
+    const s = getMetricSeries("conversion", "30d");
+    expect(s.total).toBeGreaterThan(0);
+    expect(s.total).toBeLessThan(10);
+  });
+
   it("rejects unknown ranges", () => {
     expect(() => getRange("nope" as never)).toThrow();
   });

@@ -147,8 +147,13 @@ export function getMetricSeries(metric: MetricKey, range: RangeKey): MetricSerie
     previous: Math.round((previous[i] ?? 0) * 100) / 100,
   }));
 
-  const total = current.reduce((a, b) => a + b, 0);
-  const previousTotal = previous.reduce((a, b) => a + b, 0);
+  // Rates are averaged over the period; counts and amounts are summed.
+  const aggregate = (vals: number[]) =>
+    metric === "conversion"
+      ? vals.reduce((a, b) => a + b, 0) / Math.max(vals.length, 1)
+      : vals.reduce((a, b) => a + b, 0);
+  const total = aggregate(current);
+  const previousTotal = aggregate(previous);
   const changePct =
     previousTotal === 0 ? 0 : Math.round(((total - previousTotal) / previousTotal) * 100);
 
