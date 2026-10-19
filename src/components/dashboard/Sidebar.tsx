@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useDashboard } from "@/lib/dashboard-store";
+import bagLogo from "@/assets/bag-logo.png.asset.json";
 
 const MAIN_ITEMS = [
   { to: "/home", label: "Home", icon: Home },
