@@ -1,55 +1,53 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import {
-  BadgePercent,
-  BarChart3,
-  Boxes,
-  Briefcase,
-  ChevronDown,
-  Globe,
-  Home,
-  Image,
-  Inbox,
-  LayoutGrid,
-  MonitorSmartphone,
-  Settings,
-  Store,
-  Tag,
-  User,
-  X,
-} from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useDashboard } from "@/lib/dashboard-store";
 import bagLogo from "@/assets/bag-logo.png.asset.json";
+import iconHome from "@/assets/icons/icon-home.png.asset.json";
+import iconOrders from "@/assets/icons/icon-orders.png.asset.json";
+import iconProducts from "@/assets/icons/icon-products.png.asset.json";
+import iconCustomers from "@/assets/icons/icon-customers.png.asset.json";
+import iconMarketing from "@/assets/icons/icon-marketing.png.asset.json";
+import iconDiscounts from "@/assets/icons/icon-discounts.png.asset.json";
+import iconContent from "@/assets/icons/icon-content.png.asset.json";
+import iconMetaobjects from "@/assets/icons/icon-metaobjects.png.asset.json";
+import iconMarkets from "@/assets/icons/icon-markets.png.asset.json";
+import iconFinances from "@/assets/icons/icon-finances.png.asset.json";
+import iconAnalytics from "@/assets/icons/icon-analytics.png.asset.json";
+import iconOnlineStore from "@/assets/icons/icon-online-store.png.asset.json";
+import iconPos from "@/assets/icons/icon-pos.png.asset.json";
+import iconApps from "@/assets/icons/icon-apps.png.asset.json";
+import iconSettings from "@/assets/icons/icon-settings.png.asset.json";
 
 const MAIN_ITEMS = [
-  { to: "/home", label: "Home", icon: Home },
-  { to: "/orders", label: "Orders", icon: Inbox, badge: "4,519" },
-  { to: "/products", label: "Products", icon: Tag },
-  { to: "/customers", label: "Customers", icon: User },
-  { to: "/marketing", label: "Marketing", icon: BarChart3 },
-  { to: "/discounts", label: "Discounts", icon: BadgePercent },
-  { to: "/content", label: "Content", icon: Image },
-  { to: "/metaobjects", label: "Metaobjects", icon: Boxes },
-  { to: "/markets", label: "Markets", icon: Globe },
-  { to: "/finances", label: "Finances", icon: Briefcase },
-  { to: "/analytics", label: "Analytics", icon: BarChart3 },
+  { to: "/home", label: "Home", icon: iconHome.url },
+  { to: "/orders", label: "Orders", icon: iconOrders.url, badge: "4,519" },
+  { to: "/products", label: "Products", icon: iconProducts.url },
+  { to: "/customers", label: "Customers", icon: iconCustomers.url },
+  { to: "/marketing", label: "Marketing", icon: iconMarketing.url },
+  { to: "/discounts", label: "Discounts", icon: iconDiscounts.url },
+  { to: "/content", label: "Content", icon: iconContent.url },
+  { to: "/metaobjects", label: "Metaobjects", icon: iconMetaobjects.url },
+  { to: "/markets", label: "Markets", icon: iconMarkets.url },
+  { to: "/finances", label: "Finances", icon: iconFinances.url },
+  { to: "/analytics", label: "Analytics", icon: iconAnalytics.url },
 ] as const;
 
 const CHANNEL_ITEMS = [
-  { to: "/online-store", label: "Online Store", icon: Store },
-  { to: "/pos", label: "Point of Sale", icon: MonitorSmartphone },
+  { to: "/online-store", label: "Online Store", icon: iconOnlineStore.url },
+  { to: "/pos", label: "Point of Sale", icon: iconPos.url },
 ] as const;
 
 function NavLink({
   to,
   label,
-  icon: Icon,
+  icon,
   badge,
   onNavigate,
 }: {
   to: string;
   label: string;
-  icon: typeof Home;
+  icon: string;
   badge?: string;
   onNavigate?: (() => void) | undefined;
 }) {
@@ -66,7 +64,7 @@ function NavLink({
           : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60",
       )}
     >
-      <Icon className="h-[18px] w-[18px] shrink-0" fill="currentColor" strokeWidth={1.2} />
+      <img src={icon} alt="" className="h-[18px] w-[18px] shrink-0 object-contain" />
       <span className="flex-1 truncate">{label}</span>
       {badge && (
         <span className="rounded-full bg-muted px-1.5 py-0.5 text-[11px] font-semibold text-muted-foreground">
@@ -96,10 +94,10 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         Apps
         <ChevronDown className="h-3.5 w-3.5" />
       </div>
-      <NavLink to="/apps" label="Apps" icon={LayoutGrid} onNavigate={onNavigate} />
+      <NavLink to="/apps" label="Apps" icon={iconApps.url} onNavigate={onNavigate} />
 
       <div className="mt-auto pt-4">
-        <NavLink to="/settings" label="Settings" icon={Settings} onNavigate={onNavigate} />
+        <NavLink to="/settings" label="Settings" icon={iconSettings.url} onNavigate={onNavigate} />
       </div>
     </div>
   );
