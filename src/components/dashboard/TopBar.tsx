@@ -10,7 +10,7 @@ export function TopBar() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-40 flex h-[72px] items-center gap-3 bg-topbar px-3 text-topbar-foreground lg:px-5">
+      <header className="fixed inset-x-0 top-0 z-40 flex h-[60px] items-center gap-3 bg-topbar px-3 text-topbar-foreground lg:px-5">
         <button
           aria-label="Open menu"
           className="rounded-md p-2 hover:bg-topbar-foreground/10 lg:hidden"
@@ -21,17 +21,17 @@ export function TopBar() {
 
         <div className="flex items-center gap-3">
           <img src={bagLogo.url} alt="Store logo" className="h-9 w-auto" />
-          <span className="text-2xl font-bold tracking-tight">Shopify</span>
+          <span className="text-xl font-bold tracking-tight">Shopify</span>
           <span className="hidden rounded-full border border-topbar-foreground/30 px-3 py-1 text-xs font-medium text-topbar-foreground/70 sm:block">
             Winter &apos;26
           </span>
         </div>
 
-        <div className="mx-auto hidden w-full max-w-2xl items-center gap-2.5 rounded-xl bg-topbar-foreground/10 px-4 py-2.5 md:flex">
+        <div className="mx-auto hidden w-full max-w-xl items-center gap-2.5 rounded-lg bg-topbar-foreground/10 px-3 py-2 md:flex">
           <Search className="h-[18px] w-[18px] text-topbar-foreground/60" />
           <input
             placeholder="Search"
-            className="w-full bg-transparent text-[15px] text-topbar-foreground placeholder:text-topbar-foreground/50 focus:outline-none"
+            className="w-full bg-transparent text-sm text-topbar-foreground placeholder:text-topbar-foreground/50 focus:outline-none"
           />
           <span className="flex items-center gap-1">
             <kbd className="rounded-md border border-topbar-foreground/20 px-1.5 py-0.5 text-xs text-topbar-foreground/60">
@@ -66,7 +66,7 @@ export function TopBar() {
             >
               RD
             </button>
-            <span className="hidden text-[15px] font-medium sm:block">Dashora</span>
+            <span className="hidden text-sm font-semibold sm:block">Dashora</span>
 
             <div className="invisible absolute right-0 top-full z-50 mt-2 w-72 translate-y-1 rounded-xl border border-border bg-popover text-popover-foreground opacity-0 shadow-xl transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
               <div className="flex items-center gap-3 border-b border-border px-4 py-3">
