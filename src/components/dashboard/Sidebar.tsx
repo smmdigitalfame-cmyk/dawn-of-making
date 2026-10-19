@@ -1,21 +1,20 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
+  BadgePercent,
   BarChart3,
+  Boxes,
+  Briefcase,
   ChevronDown,
-  Database,
-  FileText,
   Globe,
   Home,
+  Image,
+  Inbox,
   LayoutGrid,
-  Megaphone,
-  Package,
-  Percent,
+  MonitorSmartphone,
   Settings,
-  ShoppingBag,
   Store,
-  Tags,
+  Tag,
   User,
-  Wallet,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -23,21 +22,21 @@ import { useDashboard } from "@/lib/dashboard-store";
 
 const MAIN_ITEMS = [
   { to: "/home", label: "Home", icon: Home },
-  { to: "/orders", label: "Orders", icon: ShoppingBag, badge: "48" },
-  { to: "/products", label: "Products", icon: Tags },
+  { to: "/orders", label: "Orders", icon: Inbox, badge: "4,519" },
+  { to: "/products", label: "Products", icon: Tag },
   { to: "/customers", label: "Customers", icon: User },
-  { to: "/marketing", label: "Marketing", icon: Megaphone },
-  { to: "/discounts", label: "Discounts", icon: Percent },
-  { to: "/content", label: "Content", icon: FileText },
-  { to: "/metaobjects", label: "Metaobjects", icon: Database },
+  { to: "/marketing", label: "Marketing", icon: BarChart3 },
+  { to: "/discounts", label: "Discounts", icon: BadgePercent },
+  { to: "/content", label: "Content", icon: Image },
+  { to: "/metaobjects", label: "Metaobjects", icon: Boxes },
   { to: "/markets", label: "Markets", icon: Globe },
-  { to: "/finances", label: "Finances", icon: Wallet },
+  { to: "/finances", label: "Finances", icon: Briefcase },
   { to: "/analytics", label: "Analytics", icon: BarChart3 },
 ] as const;
 
 const CHANNEL_ITEMS = [
-  { to: "/online-store", label: "Online Store", icon: Globe },
-  { to: "/pos", label: "Point of Sale", icon: Store },
+  { to: "/online-store", label: "Online Store", icon: Store },
+  { to: "/pos", label: "Point of Sale", icon: MonitorSmartphone },
 ] as const;
 
 function NavLink({

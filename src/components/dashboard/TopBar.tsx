@@ -19,8 +19,9 @@ export function TopBar() {
           <Menu className="h-5 w-5" />
         </button>
 
-        <div className="flex items-center gap-2">
-          <img src={bagLogo.url} alt="Store logo" className="h-7 w-auto" />
+        <div className="flex items-center gap-2.5">
+          <img src={bagLogo.url} alt="Store logo" className="h-8 w-auto" />
+          <span className="text-xl font-bold tracking-tight">Shopify</span>
           <span className="hidden rounded-full border border-topbar-foreground/30 px-2.5 py-0.5 text-[11px] font-medium text-topbar-foreground/70 sm:block">
             Winter &apos;26
           </span>
