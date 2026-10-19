@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useDashboard } from "@/lib/dashboard-store";
 import { badgeTextColor } from "@/lib/dashboard-data";
 import { NotificationPanel } from "./NotificationPanel";
-import bagLogo from "@/assets/bag-logo.png.asset.json";
+import bagLogo from "@/assets/shopify-bag.png.asset.json";
 
 export function TopBar() {
   const { setSidebarOpen, custom, t } = useDashboard();
