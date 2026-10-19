@@ -193,3 +193,10 @@
 /* Collapsed-card sparklines fade/slide in like the reference */
 .spark-in { animation: spark-in 0.35s ease-out both; }
 @keyframes spark-in { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: none; } }
+
+/* Login screen */
+.login-bg { background: radial-gradient(120% 80% at 50% 0%, color-mix(in oklab, var(--topbar) 80%, var(--teal)) 0%, var(--topbar) 60%); }
+.login-glow { position: absolute; width: 520px; height: 520px; border-radius: 9999px; filter: blur(90px); opacity: .35; pointer-events: none; animation: login-float 12s ease-in-out infinite; }
+.login-glow-a { background: var(--teal); top: -160px; left: -120px; }
+.login-glow-b { background: var(--success); bottom: -200px; right: -140px; opacity: .18; animation-delay: -6s; }
+@keyframes login-float { 0%,100% { transform: translate(0,0); } 50% { transform: translate(40px,30px); } }
