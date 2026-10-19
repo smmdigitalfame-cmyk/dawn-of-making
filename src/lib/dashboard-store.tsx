@@ -10,8 +10,13 @@ import {
 } from "react";
 import {
   CURRENCIES,
+  customizeSeries,
   getCurrency,
+  getMetricSeries,
+  translate,
+  type Language,
   type MetricKey,
+  type MetricSeries,
   type RangeKey,
 } from "./dashboard-data";
 
@@ -23,6 +28,47 @@ export interface NotificationSettings {
   fastBanner: boolean;
   running: boolean;
 }
+
+export interface CustomSettings {
+  language: Language;
+  storeName: string;
+  profileName: string;
+  initials: string;
+  logo: string | null;
+  badgeColor: string;
+  roundInitial: string;
+  roundColor: string;
+  visits: number | null;
+  visitors: number;
+  totalSales: number | null;
+  orders: number | null;
+  conversion: number | null;
+  pendingOrders: number;
+  highRisk: number;
+  payout: number;
+  /** Per-range override of the Total sales chart points. */
+  chartValues: Partial<Record<RangeKey, number[]>>;
+}
+
+export const DEFAULT_CUSTOM: CustomSettings = {
+  language: "en",
+  storeName: "Shopify",
+  profileName: "Dashora",
+  initials: "RD",
+  logo: null,
+  badgeColor: "#38b2c8",
+  roundInitial: "D",
+  roundColor: "#3b4fd0",
+  visits: null,
+  visitors: 94,
+  totalSales: null,
+  orders: null,
+  conversion: null,
+  pendingOrders: 12,
+  highRisk: 3,
+  payout: 50000,
+  chartValues: {},
+};
 
 export interface LiveBanner {
   id: number;
@@ -47,6 +93,12 @@ interface DashboardState {
   dismissBanner: (id: number) => void;
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
+  custom: CustomSettings;
+  updateCustom: (patch: Partial<CustomSettings>) => void;
+  editorOpen: boolean;
+  setEditorOpen: (open: boolean) => void;
+  t: (key: string) => string;
+  seriesFor: (metric: MetricKey) => MetricSeries;
 }
 
 const DashboardContext = createContext<DashboardState | null>(null);
@@ -68,6 +120,7 @@ interface Persisted {
   metric: MetricKey;
   currency: string;
   notif: NotificationSettings;
+  custom: CustomSettings;
 }
 
 function loadPersisted(): Partial<Persisted> {
@@ -102,6 +155,14 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     ...persisted.notif,
     running: false,
   });
+  const [custom, setCustom] = useState<CustomSettings>({
+    ...DEFAULT_CUSTOM,
+    ...persisted.custom,
+  });
+  const [editorOpen, setEditorOpen] = useState(false);
+  const updateCustom = useCallback((patch: Partial<CustomSettings>) => {
+    setCustom((prev) => ({ ...prev, ...patch }));
+  }, []);
   const [banners, setBanners] = useState<LiveBanner[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const bannerId = useRef(0);
@@ -116,12 +177,13 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
         metric,
         currency,
         notif: { ...notif, running: false },
+        custom,
       };
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch {
       // storage unavailable — ignore
     }
-  }, [range, channel, metric, currency, notif]);
+  }, [range, channel, metric, currency, notif, custom]);
 
   const dismissBanner = useCallback((id: number) => {
     setBanners((prev) => prev.filter((b) => b.id !== id));
@@ -183,14 +245,29 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     setMetric,
     currency,
     setCurrency,
-    visitors: 94,
-    payoutINR: 50000,
+    visitors: custom.visitors,
+    payoutINR: custom.payout,
     notif,
     updateNotif,
     banners,
     dismissBanner,
     sidebarOpen,
     setSidebarOpen,
+    custom,
+    updateCustom,
+    editorOpen,
+    setEditorOpen,
+    t: (key: string) => translate(custom.language, key),
+    seriesFor: (m: MetricKey) => {
+      const base = getMetricSeries(m, range);
+      const target =
+        m === "sales" ? custom.totalSales
+        : m === "visits" ? custom.visits
+        : m === "orders" ? custom.orders
+        : custom.conversion;
+      const chart = m === "sales" ? custom.chartValues[range] ?? null : null;
+      return customizeSeries(base, m, target, chart);
+    },
   };
 
   return (
