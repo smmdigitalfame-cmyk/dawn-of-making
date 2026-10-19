@@ -327,3 +327,102 @@ export function formatAxisTick(metric: MetricKey, value: number, currencyCode: s
   if (metric === "conversion") return `${Math.round(value)}%`;
   return formatCompact(value);
 }
+
+// ---------------------------------------------------------------------------
+// Customization (pencil editor): overrides applied on top of generated series.
+// ---------------------------------------------------------------------------
+
+export type Language = "en" | "fr" | "de";
+
+export const LANGUAGES: { code: Language; label: string }[] = [
+  { code: "en", label: "English" },
+  { code: "fr", label: "French" },
+  { code: "de", label: "German" },
+];
+
+export const BADGE_COLORS = [
+  "#ec4899", "#7c3aed", "#f43f5e", "#2dd4bf", "#38b2c8",
+  "#8ad9b5", "#f0d070", "#e5e5e5", "#10b981", "#6b7280",
+];
+
+/** Readable text color (dark or light) for a hex badge background. */
+export function badgeTextColor(hex: string): string {
+  const h = hex.replace("#", "");
+  if (h.length !== 6) return "#ffffff";
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return lum > 0.65 ? "#1a1a1a" : "#ffffff";
+}
+
+/**
+ * Apply user overrides to a series. `chartValues` replaces current points
+ * (index by index); `target` then rescales current points so the period
+ * total (or average for conversion) equals the target exactly.
+ */
+export function customizeSeries(
+  series: MetricSeries,
+  metric: MetricKey,
+  target: number | null,
+  chartValues: number[] | null,
+): MetricSeries {
+  let points = series.points.map((p, i) => {
+    const v = chartValues?.[i];
+    return typeof v === "number" && Number.isFinite(v) ? { ...p, current: v } : p;
+  });
+  const agg = (vals: number[]) =>
+    metric === "conversion"
+      ? vals.reduce((a, b) => a + b, 0) / Math.max(vals.length, 1)
+      : vals.reduce((a, b) => a + b, 0);
+  let total = agg(points.map((p) => p.current));
+  let prev = series.previousTotal;
+  if (target !== null && Number.isFinite(target)) {
+    const factor = total === 0 ? 0 : target / total;
+    // Without hand-typed chart points, scale the comparison line too so the
+    // two periods stay on the same visual scale.
+    const scalePrev = !chartValues;
+    points = points.map((p) => ({
+      ...p,
+      current: Math.round(p.current * factor * 100) / 100,
+      previous: scalePrev ? Math.round(p.previous * factor * 100) / 100 : p.previous,
+    }));
+    if (scalePrev) prev = prev * factor;
+    total = target;
+  }
+  const changePct = prev === 0 ? 0 : Math.round(((total - prev) / prev) * 100);
+  return { ...series, points, total: Math.round(total * 100) / 100, changePct };
+}
+
+const DICT: Record<Language, Record<string, string>> = {
+  en: {},
+  fr: {
+    Home: "Accueil", Orders: "Commandes", Products: "Produits", Customers: "Clients",
+    Marketing: "Marketing", Discounts: "Réductions", Content: "Contenu",
+    Metaobjects: "Métaobjets", Markets: "Marchés", Finances: "Finances",
+    Analytics: "Statistiques", "Online Store": "Boutique en ligne",
+    "Point of Sale": "Point de vente", Apps: "Applications", Settings: "Paramètres",
+    "Sales channels": "Canaux de vente", "Total sales": "Ventes totales",
+    Visits: "Visites", "Conversion rate": "Taux de conversion",
+    visitors: "visiteurs", "Next payout": "Prochain versement",
+    "Orders to fulfill": "Commandes à traiter", "High risk orders": "Commandes à risque",
+    greeting: "Bonsoir, commençons !", Search: "Rechercher",
+  },
+  de: {
+    Home: "Startseite", Orders: "Bestellungen", Products: "Produkte", Customers: "Kunden",
+    Marketing: "Marketing", Discounts: "Rabatte", Content: "Inhalte",
+    Metaobjects: "Metaobjekte", Markets: "Märkte", Finances: "Finanzen",
+    Analytics: "Analysen", "Online Store": "Onlineshop",
+    "Point of Sale": "Point of Sale", Apps: "Apps", Settings: "Einstellungen",
+    "Sales channels": "Vertriebskanäle", "Total sales": "Gesamtumsatz",
+    Visits: "Besuche", "Conversion rate": "Conversion-Rate",
+    visitors: "Besucher", "Next payout": "Nächste Auszahlung",
+    "Orders to fulfill": "Zu erfüllende Bestellungen", "High risk orders": "Risikobestellungen",
+    greeting: "Guten Abend, legen wir los!", Search: "Suchen",
+  },
+};
+
+export function translate(lang: Language, key: string): string {
+  if (key === "greeting" && lang === "en") return "Good evening, let\u2019s get started!";
+  return DICT[lang]?.[key] ?? key;
+}

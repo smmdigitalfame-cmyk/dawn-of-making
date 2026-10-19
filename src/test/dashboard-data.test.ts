@@ -81,3 +81,32 @@ describe("currency", () => {
     expect(() => getCurrency("XXX")).toThrow();
   });
 });
+
+import { customizeSeries, badgeTextColor, translate, getMetricSeries as gms } from "@/lib/dashboard-data";
+
+describe("customizeSeries", () => {
+  it("sets total sales exactly to the typed number", () => {
+    const s = customizeSeries(gms("sales", "today"), "sales", 5510, null);
+    expect(s.total).toBe(5510);
+  });
+  it("chart values replace the current points", () => {
+    const s = customizeSeries(gms("sales", "today"), "sales", null, [708, 784]);
+    expect(s.points[0]?.current).toBe(708);
+    expect(s.points[1]?.current).toBe(784);
+  });
+  it("conversion target is the average", () => {
+    const s = customizeSeries(gms("conversion", "today"), "conversion", 3.77, null);
+    expect(s.total).toBe(3.77);
+  });
+});
+
+describe("badges and language", () => {
+  it("light badge gets dark text", () => {
+    expect(badgeTextColor("#e5e5e5")).toBe("#1a1a1a");
+    expect(badgeTextColor("#7c3aed")).toBe("#ffffff");
+  });
+  it("translates sidebar labels", () => {
+    expect(translate("fr", "Orders")).toBe("Commandes");
+    expect(translate("de", "Orders")).toBe("Bestellungen");
+  });
+});

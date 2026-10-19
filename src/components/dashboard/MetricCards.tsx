@@ -1,23 +1,19 @@
 import { useMemo } from "react";
 import { ArrowDownRight, ArrowUpRight, ChevronUp, Pencil } from "lucide-react";
-import {
-  METRICS,
-  formatMetricTotal,
-  getMetricSeries,
-} from "@/lib/dashboard-data";
+import { METRICS, formatMetricTotal } from "@/lib/dashboard-data";
 import { useDashboard } from "@/lib/dashboard-store";
 import { cn } from "@/lib/utils";
 
 export function MetricCards() {
-  const { metric, setMetric, range, currency } = useDashboard();
+  const { metric, setMetric, currency, seriesFor, setEditorOpen, t, custom } = useDashboard();
 
   const summaries = useMemo(
     () =>
       METRICS.map((m) => ({
         ...m,
-        series: getMetricSeries(m.key, range),
+        series: seriesFor(m.key),
       })),
-    [range],
+    [seriesFor, custom],
   );
 
   // Active metric first, the rest in original order — like the reference UI.
@@ -47,9 +43,28 @@ export function MetricCards() {
                   active ? "text-foreground" : "text-muted-foreground",
                 )}
               >
-                {s.label}
+                {t(s.label)}
               </span>
-              {active && <Pencil className="h-3.5 w-3.5 text-muted-foreground" />}
+              {active && (
+                <span
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Customize dashboard"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setEditorOpen(true);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.stopPropagation();
+                      setEditorOpen(true);
+                    }
+                  }}
+                  className="rounded p-1 hover:bg-background"
+                >
+                  <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
+                </span>
+              )}
             </span>
             <span className="flex w-full items-center justify-between gap-2">
               <span
