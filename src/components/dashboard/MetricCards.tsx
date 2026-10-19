@@ -91,14 +91,14 @@ export function MetricCards({ collapsed = false, onToggle }: { collapsed?: boole
               </span>
               <span
                 className={cn(
-                  "flex items-center gap-0.5 text-[11px] font-medium",
-                  positive ? "text-success" : "text-muted-foreground",
+                  "flex items-center gap-0.5 text-[11px] font-semibold",
+                  positive ? "text-success" : "text-foreground/80",
                 )}
               >
                 {positive ? (
-                  <ArrowUpRight className="h-3 w-3" />
+                  <ArrowUpRight className="h-3 w-3" strokeWidth={2.75} />
                 ) : (
-                  <ArrowDownRight className="h-3 w-3" />
+                  <ArrowDownRight className="h-3 w-3" strokeWidth={2.75} />
                 )}
                 {Math.abs(s.series.changePct)}%
               </span>

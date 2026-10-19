@@ -223,7 +223,11 @@ export function getMetricSeries(metric: MetricKey, range: RangeKey): MetricSerie
   const { base, amp } = scale[metric];
 
   const current = waveSeries(def.points, seed, base, amp);
-  const previous = waveSeries(def.points, seed + 7919, base * 0.62, amp * 0.6);
+  // Conversion rate trends slightly down vs the previous period (≈ -3%), like the reference.
+  const previous =
+    metric === "conversion"
+      ? current.map((v) => v * 1.031)
+      : waveSeries(def.points, seed + 7919, base * 0.62, amp * 0.6);
 
   const points: SeriesPoint[] = current.map((v, i) => {
     const pair = axisLabelPair(def, i);
