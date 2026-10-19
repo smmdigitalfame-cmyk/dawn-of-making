@@ -144,7 +144,7 @@ export function getMetricSeries(metric: MetricKey, range: RangeKey): MetricSerie
   const points: SeriesPoint[] = current.map((v, i) => ({
     label: axisLabel(def, i),
     current: Math.round(v * 100) / 100,
-    previous: Math.round(previous[i] * 100) / 100,
+    previous: Math.round((previous[i] ?? 0) * 100) / 100,
   }));
 
   const total = current.reduce((a, b) => a + b, 0);

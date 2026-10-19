@@ -51,7 +51,7 @@ function NavLink({
   label: string;
   icon: typeof Home;
   badge?: string;
-  onNavigate?: () => void;
+  onNavigate?: (() => void) | undefined;
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const active = pathname === to;
