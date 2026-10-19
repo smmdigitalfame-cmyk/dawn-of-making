@@ -25,7 +25,7 @@ function safeEqual(a: string, b: string) {
 
 export const getAuthSession = createServerFn({ method: "GET" }).handler(async () => {
   const { getCookie } = await import("@tanstack/react-start/server");
-  const secret = process.env.SESSION_SECRET;
+  const secret = process.env["SESSION_SECRET"];
   const raw = getCookie(COOKIE);
   if (!secret || !raw) return { authenticated: false };
   const [exp, sig] = raw.split(".");
@@ -40,9 +40,9 @@ export const login = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const { setCookie } = await import("@tanstack/react-start/server");
-    const user = process.env.DASHBOARD_USERNAME;
-    const pass = process.env.DASHBOARD_PASSWORD;
-    const secret = process.env.SESSION_SECRET;
+    const user = process.env["DASHBOARD_USERNAME"];
+    const pass = process.env["DASHBOARD_PASSWORD"];
+    const secret = process.env["SESSION_SECRET"];
     if (!user || !pass || !secret) return { ok: false, error: "Login is not set up yet." };
     const okUser = safeEqual(data.username, user);
     const okPass = safeEqual(data.password, pass);
