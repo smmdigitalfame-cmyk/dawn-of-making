@@ -1,7 +1,37 @@
-import { Bell, Menu, Package, Search, Store } from "lucide-react";
+import { Bell, ChevronDown, LogOut, Menu, Search, Store, UserRound } from "lucide-react";
 import { useState } from "react";
 import { useDashboard } from "@/lib/dashboard-store";
 import { NotificationPanel } from "./NotificationPanel";
+
+/** Storefront bag logo with the brand initial, like the reference admin. */
+function BagLogo() {
+  return (
+    <svg viewBox="0 0 36 36" className="h-7 w-7" aria-hidden="true">
+      <path
+        d="M9.5 12.5h17l-1.3 15.2a2.4 2.4 0 0 1-2.4 2.2H13.2a2.4 2.4 0 0 1-2.4-2.2L9.5 12.5z"
+        fill="currentColor"
+      />
+      <path
+        d="M13.5 12.5a4.5 4.5 0 0 1 9 0"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+      />
+      <text
+        x="18"
+        y="25.5"
+        textAnchor="middle"
+        fontSize="12"
+        fontWeight="800"
+        fill="var(--color-topbar)"
+        fontFamily="inherit"
+      >
+        D
+      </text>
+    </svg>
+  );
+}
 
 export function TopBar() {
   const { setSidebarOpen } = useDashboard();
@@ -19,9 +49,9 @@ export function TopBar() {
         </button>
 
         <div className="flex items-center gap-2">
-          <Package className="h-6 w-6" strokeWidth={2} />
+          <BagLogo />
           <span className="text-lg font-bold tracking-tight">Dashora</span>
-          <span className="hidden rounded px-1.5 py-0.5 text-[11px] font-medium text-topbar-foreground/60 sm:block">
+          <span className="hidden rounded-full border border-topbar-foreground/30 px-2.5 py-0.5 text-[11px] font-medium text-topbar-foreground/70 sm:block">
             Winter &apos;26
           </span>
         </div>
@@ -51,11 +81,48 @@ export function TopBar() {
           >
             <Bell className="h-5 w-5" />
           </button>
-          <div className="ml-1 flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-teal text-xs font-bold text-primary-foreground">
+
+          {/* Account circle — hover opens the account menu */}
+          <div className="group relative ml-1 flex items-center gap-2">
+            <button
+              aria-label="Account menu"
+              className="flex h-7 w-7 items-center justify-center rounded-full bg-teal text-xs font-bold text-primary-foreground ring-topbar-foreground/30 transition-shadow hover:ring-2"
+            >
               RD
-            </span>
+            </button>
             <span className="hidden text-sm font-medium sm:block">Dashora</span>
+
+            <div className="invisible absolute right-0 top-full z-50 mt-2 w-72 translate-y-1 rounded-xl border border-border bg-popover text-popover-foreground opacity-0 shadow-xl transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+              <div className="flex items-center gap-3 border-b border-border px-4 py-3">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-teal text-sm font-bold text-primary-foreground">
+                  RD
+                </span>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold">Dashora</p>
+                  <p className="truncate text-xs text-muted-foreground">
+                    dashora.myshopify.com
+                  </p>
+                </div>
+              </div>
+              <div className="p-1.5">
+                <button className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium hover:bg-muted">
+                  <Store className="h-4 w-4 text-muted-foreground" />
+                  All stores
+                </button>
+                <button className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium hover:bg-muted">
+                  <UserRound className="h-4 w-4 text-muted-foreground" />
+                  Manage account
+                </button>
+                <button className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium hover:bg-muted">
+                  <LogOut className="h-4 w-4 text-muted-foreground" />
+                  Log out
+                </button>
+              </div>
+              <div className="flex items-center justify-between border-t border-border px-4 py-2.5 text-xs text-muted-foreground">
+                <span>Winter &apos;26 plan</span>
+                <ChevronDown className="h-3.5 w-3.5" />
+              </div>
+            </div>
           </div>
         </div>
       </header>

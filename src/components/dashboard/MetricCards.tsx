@@ -27,7 +27,7 @@ export function MetricCards() {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-0 md:grid-cols-4">
+    <div className="relative grid grid-cols-2 gap-0 md:grid-cols-4">
       {ordered.map((s) => {
         const active = s.key === metric;
         const positive = s.series.changePct >= 0;
@@ -36,15 +36,18 @@ export function MetricCards() {
             key={s.key}
             onClick={() => setMetric(s.key)}
             className={cn(
-              "group flex flex-col items-start gap-0.5 rounded-lg px-4 py-3 text-left transition-colors",
+              "group relative flex flex-col items-start gap-0.5 rounded-lg px-4 py-3 text-left transition-colors",
               active ? "bg-muted" : "hover:bg-muted/60",
             )}
           >
-            <span className="flex items-center gap-1.5 text-[13px] font-medium text-foreground">
-              {s.label}
-              {active && (
-                <Pencil className="h-3 w-3 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+            <span
+              className={cn(
+                "flex items-center gap-1.5 text-[13px] font-medium text-foreground",
+                active && "underline decoration-dotted underline-offset-4",
               )}
+            >
+              {s.label}
+              {active && <Pencil className="h-3 w-3 text-muted-foreground" />}
             </span>
             <span className="flex items-baseline gap-3">
               <span className="text-lg font-semibold text-foreground">
@@ -64,12 +67,12 @@ export function MetricCards() {
                 {Math.abs(s.series.changePct)}%
               </span>
             </span>
+            {active && (
+              <ChevronUp className="absolute right-3 top-3 h-4 w-4 text-muted-foreground" />
+            )}
           </button>
         );
       })}
-      <span className="absolute right-3 top-3 hidden md:block">
-        <ChevronUp className="h-4 w-4 text-muted-foreground" />
-      </span>
     </div>
   );
 }
