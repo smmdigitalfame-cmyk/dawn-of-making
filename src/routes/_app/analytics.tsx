@@ -7,7 +7,6 @@ import {
   formatMoney,
   getCurrency,
   getMetricSeries,
-  periodLegend,
 } from "@/lib/dashboard-data";
 import { useDashboard } from "@/lib/dashboard-store";
 
@@ -27,7 +26,6 @@ export const Route = createFileRoute("/_app/analytics")({
 
 function AnalyticsPage() {
   const { range, currency } = useDashboard();
-  const legend = periodLegend(range);
 
   const sales = getMetricSeries("sales", range);
   const orders = getMetricSeries("orders", range);
