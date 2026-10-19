@@ -70,7 +70,7 @@ export function SalesChart() {
   const tickInterval = Math.max(0, Math.floor(def.points / 12) - 1);
 
   return (
-    <div className="h-[340px] w-full">
+    <div className="h-[260px] w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           key={`${metric}-${range}-${currency}`}

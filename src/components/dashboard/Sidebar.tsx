@@ -58,13 +58,13 @@ function NavLink({
       to={to}
       onClick={onNavigate}
       className={cn(
-        "flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-[15px] font-medium transition-colors",
+        "flex items-center gap-3 rounded-lg px-3 py-1.5 text-sm font-semibold transition-colors",
         active
           ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-sm"
-          : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60",
+          : "text-sidebar-foreground hover:bg-sidebar-accent/60",
       )}
     >
-      <img src={icon} alt="" className="h-[22px] w-[22px] shrink-0 object-contain" />
+      <img src={icon} alt="" className="h-[18px] w-[18px] shrink-0 object-contain" />
       <span className="flex-1 truncate">{label}</span>
       {badge && (
         <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-semibold text-muted-foreground">
@@ -108,7 +108,7 @@ export function Sidebar() {
   return (
     <>
       {/* Desktop */}
-      <aside className="fixed bottom-0 left-0 top-[72px] z-30 hidden w-[300px] border-r border-sidebar-border bg-sidebar lg:block">
+      <aside className="fixed bottom-0 left-0 top-[60px] z-30 hidden w-[240px] border-r border-sidebar-border bg-sidebar lg:block">
         <SidebarContent />
       </aside>
 
