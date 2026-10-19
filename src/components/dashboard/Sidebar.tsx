@@ -122,10 +122,10 @@ export function Sidebar() {
         <div className="fixed inset-0 z-50 lg:hidden">
           <button
             aria-label="Close menu"
-            className="absolute inset-0 bg-foreground/40"
+            className="fade-in-bg absolute inset-0 bg-foreground/40"
             onClick={() => setSidebarOpen(false)}
           />
-          <aside className="absolute inset-y-0 left-0 w-[260px] bg-sidebar shadow-xl">
+          <aside className="drawer-in absolute inset-y-0 left-0 w-[260px] bg-sidebar shadow-xl">
             <div className="flex items-center justify-between px-3 py-2">
               <span className="flex items-center gap-2 text-sm font-semibold">
                 <img src={bagLogo.url} alt="Store logo" className="h-6 w-auto" /> Shopify
