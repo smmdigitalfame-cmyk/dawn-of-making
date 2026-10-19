@@ -110,7 +110,7 @@ export function Sidebar() {
   return (
     <>
       {/* Desktop */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[220px] border-r border-sidebar-border bg-sidebar lg:block">
+      <aside className="fixed bottom-0 left-0 top-14 z-30 hidden w-[220px] border-r border-sidebar-border bg-sidebar lg:block">
         <SidebarContent />
       </aside>
 
