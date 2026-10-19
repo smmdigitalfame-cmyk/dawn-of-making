@@ -16,7 +16,7 @@ export function AskBox() {
   return (
     <section>
       <h2 className="mb-3 text-lg font-semibold text-foreground">
-        Good evening, let&apos;s get started!
+        {t("greeting")}
       </h2>
       <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
         <input

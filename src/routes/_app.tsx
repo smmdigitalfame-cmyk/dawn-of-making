@@ -1,4 +1,5 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { CustomizeDialog } from "@/components/dashboard/CustomizeDialog";
 import { LiveBanners } from "@/components/dashboard/LiveBanners";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { TopBar } from "@/components/dashboard/TopBar";
@@ -15,6 +16,7 @@ function AppLayout() {
         <TopBar />
         <Sidebar />
         <LiveBanners />
+        <CustomizeDialog />
         <main className="pt-[60px] lg:pl-[240px]">
           <div className="px-4 py-6 lg:px-8">
             <Outlet />

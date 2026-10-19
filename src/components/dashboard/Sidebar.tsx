@@ -53,6 +53,7 @@ function NavLink({
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const active = pathname === to;
+  const { t } = useDashboard();
   return (
     <Link
       to={to}
@@ -70,7 +71,7 @@ function NavLink({
         alt=""
         className={cn("h-[22px] w-[22px] shrink-0 object-contain", active && "nav-icon-pop")}
       />
-      <span className="flex-1 truncate">{label}</span>
+      <span className="flex-1 truncate">{t(label)}</span>
       {badge && (
         <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-semibold text-muted-foreground">
           {badge}
@@ -81,6 +82,7 @@ function NavLink({
 }
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
+  const { t } = useDashboard();
   return (
     <div className="flex h-full flex-col gap-1 overflow-y-auto px-3 py-3">
       {MAIN_ITEMS.map((item) => (
@@ -88,7 +90,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
       ))}
 
       <div className="mt-4 flex items-center gap-1 px-3.5 text-[13px] font-medium text-muted-foreground">
-        Sales channels
+        {t("Sales channels")}
         <ChevronDown className="h-4 w-4" />
       </div>
       {CHANNEL_ITEMS.map((item) => (
@@ -109,7 +111,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 export function Sidebar() {
-  const { sidebarOpen, setSidebarOpen } = useDashboard();
+  const { sidebarOpen, setSidebarOpen, custom } = useDashboard();
   return (
     <>
       {/* Desktop */}
@@ -128,7 +130,7 @@ export function Sidebar() {
           <aside className="drawer-in absolute inset-y-0 left-0 w-[260px] bg-sidebar shadow-xl">
             <div className="flex items-center justify-between px-3 py-2">
               <span className="flex items-center gap-2 text-sm font-semibold">
-                <img src={bagLogo.url} alt="Store logo" className="h-6 w-auto" /> Shopify
+                <img src={custom.logo ?? bagLogo.url} alt="Store logo" className="h-6 w-auto" /> {custom.storeName}
               </span>
               <button
                 aria-label="Close menu"

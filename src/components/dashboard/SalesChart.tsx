@@ -12,7 +12,6 @@ import {
   METRICS,
   formatAxisTick,
   formatMetricTotal,
-  getMetricSeries,
   getRange,
   type SeriesPoint,
 } from "@/lib/dashboard-data";
@@ -25,11 +24,11 @@ function ChartTooltip({
   active?: boolean;
   payload?: { payload?: SeriesPoint }[];
 }) {
-  const { metric, currency } = useDashboard();
+  const { metric, currency, t } = useDashboard();
   if (!active || !payload || payload.length === 0) return null;
   const point = payload[0]?.payload;
   if (!point) return null;
-  const metricLabel = METRICS.find((m) => m.key === metric)?.label ?? metric;
+  const metricLabel = t(METRICS.find((m) => m.key === metric)?.label ?? metric);
   const pct =
     point.previous === 0
       ? 0
@@ -63,8 +62,8 @@ function ChartTooltip({
 }
 
 export function SalesChart() {
-  const { metric, range, currency } = useDashboard();
-  const series = useMemo(() => getMetricSeries(metric, range), [metric, range]);
+  const { metric, range, currency, seriesFor, custom } = useDashboard();
+  const series = useMemo(() => seriesFor(metric), [seriesFor, metric, custom]);
   const def = getRange(range);
 
   const tickInterval = Math.max(0, Math.floor(def.points / 12) - 1);
