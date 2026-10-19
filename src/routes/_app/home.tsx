@@ -32,6 +32,7 @@ export const Route = createFileRoute("/_app/home")({
 
 function HomePage() {
   const { visitors, payoutINR, currency, range, custom, t } = useDashboard();
+  const [chartCollapsed, setChartCollapsed] = useState(false);
   const legend = periodLegend(range);
 
   return (
@@ -69,6 +70,8 @@ function HomePage() {
             <span className="h-2 w-2 rounded-full bg-chart-2" />
             {legend.previous}
           </span>
+        </div>
+          </div>
         </div>
       </div>
 
