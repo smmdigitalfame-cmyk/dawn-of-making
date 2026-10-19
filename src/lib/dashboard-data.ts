@@ -78,6 +78,8 @@ function hashString(input: string): number {
 
 export interface SeriesPoint {
   label: string;
+  /** Label for the same point in the previous period (shown in tooltips). */
+  prevLabel: string;
   current: number;
   previous: number;
 }
