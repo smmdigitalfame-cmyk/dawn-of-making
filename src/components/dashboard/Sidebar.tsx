@@ -1,43 +1,43 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
+  BadgePercent,
   BarChart3,
+  Boxes,
+  Briefcase,
   ChevronDown,
-  Database,
-  FileText,
   Globe,
   Home,
+  Image,
+  Inbox,
   LayoutGrid,
-  Megaphone,
-  Package,
-  Percent,
+  MonitorSmartphone,
   Settings,
-  ShoppingBag,
   Store,
-  Tags,
+  Tag,
   User,
-  Wallet,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useDashboard } from "@/lib/dashboard-store";
+import bagLogo from "@/assets/bag-logo.png.asset.json";
 
 const MAIN_ITEMS = [
   { to: "/home", label: "Home", icon: Home },
-  { to: "/orders", label: "Orders", icon: ShoppingBag, badge: "48" },
-  { to: "/products", label: "Products", icon: Tags },
+  { to: "/orders", label: "Orders", icon: Inbox, badge: "4,519" },
+  { to: "/products", label: "Products", icon: Tag },
   { to: "/customers", label: "Customers", icon: User },
-  { to: "/marketing", label: "Marketing", icon: Megaphone },
-  { to: "/discounts", label: "Discounts", icon: Percent },
-  { to: "/content", label: "Content", icon: FileText },
-  { to: "/metaobjects", label: "Metaobjects", icon: Database },
+  { to: "/marketing", label: "Marketing", icon: BarChart3 },
+  { to: "/discounts", label: "Discounts", icon: BadgePercent },
+  { to: "/content", label: "Content", icon: Image },
+  { to: "/metaobjects", label: "Metaobjects", icon: Boxes },
   { to: "/markets", label: "Markets", icon: Globe },
-  { to: "/finances", label: "Finances", icon: Wallet },
+  { to: "/finances", label: "Finances", icon: Briefcase },
   { to: "/analytics", label: "Analytics", icon: BarChart3 },
 ] as const;
 
 const CHANNEL_ITEMS = [
-  { to: "/online-store", label: "Online Store", icon: Globe },
-  { to: "/pos", label: "Point of Sale", icon: Store },
+  { to: "/online-store", label: "Online Store", icon: Store },
+  { to: "/pos", label: "Point of Sale", icon: MonitorSmartphone },
 ] as const;
 
 function NavLink({
@@ -66,7 +66,7 @@ function NavLink({
           : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60",
       )}
     >
-      <Icon className="h-4 w-4 shrink-0" strokeWidth={1.8} />
+      <Icon className="h-[18px] w-[18px] shrink-0" fill="currentColor" strokeWidth={1.2} />
       <span className="flex-1 truncate">{label}</span>
       {badge && (
         <span className="rounded-full bg-muted px-1.5 py-0.5 text-[11px] font-semibold text-muted-foreground">
@@ -125,7 +125,7 @@ export function Sidebar() {
           <aside className="absolute inset-y-0 left-0 w-[260px] bg-sidebar shadow-xl">
             <div className="flex items-center justify-between px-3 py-2">
               <span className="flex items-center gap-2 text-sm font-semibold">
-                <Package className="h-4 w-4" /> Dashora
+                <img src={bagLogo.url} alt="Store logo" className="h-6 w-auto" /> Shopify
               </span>
               <button
                 aria-label="Close menu"
