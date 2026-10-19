@@ -1,4 +1,5 @@
-import { Plus, Send, Sparkles } from "lucide-react";
+import { Plus, Send } from "lucide-react";
+import sidekickIcon from "@/assets/icons/home-sidekick.png.asset.json";
 import { useState } from "react";
 import { useDashboard } from "@/lib/dashboard-store";
 
@@ -29,7 +30,7 @@ export function AskBox() {
           className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
         />
         <div className="mt-6 flex items-center justify-between">
-          <Sparkles className="h-5 w-5 text-muted-foreground" />
+          <img src={sidekickIcon.url} alt="" className="h-6 w-6 object-contain" />
           <div className="flex items-center gap-2">
             <button
               aria-label="Add"
