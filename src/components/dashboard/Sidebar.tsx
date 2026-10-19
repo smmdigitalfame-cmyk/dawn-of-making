@@ -58,13 +58,18 @@ function NavLink({
       to={to}
       onClick={onNavigate}
       className={cn(
-        "flex items-center gap-3 rounded-lg px-3 py-1.5 text-sm font-semibold transition-colors",
+        "flex items-center gap-3 rounded-lg transition-all duration-200 active:scale-[0.98] px-3 py-1.5 text-sm font-semibold transition-colors",
         active
-          ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-sm"
+          ? "nav-pill-in bg-sidebar-accent text-sidebar-accent-foreground shadow-sm"
           : "text-sidebar-foreground hover:bg-sidebar-accent/60",
       )}
     >
-      <img src={icon} alt="" className="h-[22px] w-[22px] shrink-0 object-contain" />
+      <img
+        key={active ? "on" : "off"}
+        src={icon}
+        alt=""
+        className={cn("h-[22px] w-[22px] shrink-0 object-contain", active && "nav-icon-pop")}
+      />
       <span className="flex-1 truncate">{label}</span>
       {badge && (
         <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-semibold text-muted-foreground">
