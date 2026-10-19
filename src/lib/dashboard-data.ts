@@ -376,12 +376,20 @@ export function customizeSeries(
       ? vals.reduce((a, b) => a + b, 0) / Math.max(vals.length, 1)
       : vals.reduce((a, b) => a + b, 0);
   let total = agg(points.map((p) => p.current));
+  let prev = series.previousTotal;
   if (target !== null && Number.isFinite(target)) {
     const factor = total === 0 ? 0 : target / total;
-    points = points.map((p) => ({ ...p, current: Math.round(p.current * factor * 100) / 100 }));
+    // Without hand-typed chart points, scale the comparison line too so the
+    // two periods stay on the same visual scale.
+    const scalePrev = !chartValues;
+    points = points.map((p) => ({
+      ...p,
+      current: Math.round(p.current * factor * 100) / 100,
+      previous: scalePrev ? Math.round(p.previous * factor * 100) / 100 : p.previous,
+    }));
+    if (scalePrev) prev = prev * factor;
     total = target;
   }
-  const prev = series.previousTotal;
   const changePct = prev === 0 ? 0 : Math.round(((total - prev) / prev) * 100);
   return { ...series, points, total: Math.round(total * 100) / 100, changePct };
 }
