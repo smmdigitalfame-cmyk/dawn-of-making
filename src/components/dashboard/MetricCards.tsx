@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ChevronUp, Pencil, TrendingDown, TrendingUp } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, ChevronUp, Pencil } from "lucide-react";
 import {
   METRICS,
   formatMetricTotal,
@@ -27,7 +27,7 @@ export function MetricCards() {
   ];
 
   return (
-    <div className="relative grid grid-cols-2 gap-0 md:grid-cols-4">
+    <div className="relative grid grid-cols-2 gap-2 p-2 pr-10 md:grid-cols-4">
       {ordered.map((s) => {
         const active = s.key === metric;
         const positive = s.series.changePct >= 0;
@@ -36,44 +36,48 @@ export function MetricCards() {
             key={s.key}
             onClick={() => setMetric(s.key)}
             className={cn(
-              "group relative flex flex-col items-start gap-1 rounded-lg px-5 py-4 text-left transition-colors",
-              active ? "bg-muted" : "hover:bg-muted/60",
+              "flex flex-col gap-1.5 rounded-lg px-3 py-2.5 text-left transition-colors",
+              active ? "bg-muted" : "hover:bg-muted/50",
             )}
           >
-            <span
-              className={cn(
-                "flex items-center gap-1.5 text-sm font-medium text-foreground",
-                "underline decoration-dotted underline-offset-4",
-                !active && "text-muted-foreground decoration-muted-foreground/50",
-              )}
-            >
-              {s.label}
+            <span className="flex w-full items-center justify-between gap-2">
+              <span
+                className={cn(
+                  "text-[13px] font-semibold underline decoration-dotted decoration-muted-foreground/60 underline-offset-[5px]",
+                  active ? "text-foreground" : "text-muted-foreground",
+                )}
+              >
+                {s.label}
+              </span>
               {active && <Pencil className="h-3.5 w-3.5 text-muted-foreground" />}
             </span>
-            <span className="flex items-baseline gap-3">
-              <span className="whitespace-nowrap text-2xl font-semibold text-foreground">
+            <span className="flex w-full items-center justify-between gap-2">
+              <span
+                className={cn(
+                  "whitespace-nowrap text-[15px] font-semibold",
+                  active ? "text-foreground" : "text-muted-foreground",
+                )}
+              >
                 {formatMetricTotal(s.key, s.series.total, currency)}
               </span>
               <span
                 className={cn(
-                  "flex items-center gap-0.5 text-[13px] font-semibold",
-                  positive ? "text-success" : "text-destructive",
+                  "flex items-center gap-0.5 text-[11px] font-medium",
+                  positive ? "text-success" : "text-muted-foreground",
                 )}
               >
                 {positive ? (
-                  <TrendingUp className="h-3.5 w-3.5" />
+                  <ArrowUpRight className="h-3 w-3" />
                 ) : (
-                  <TrendingDown className="h-3.5 w-3.5" />
+                  <ArrowDownRight className="h-3 w-3" />
                 )}
                 {Math.abs(s.series.changePct)}%
               </span>
             </span>
-            {active && (
-              <ChevronUp className="absolute right-4 top-4 h-4 w-4 text-muted-foreground" />
-            )}
           </button>
         );
       })}
+      <ChevronUp className="absolute right-4 top-6 h-4 w-4 text-muted-foreground" />
     </div>
   );
 }
