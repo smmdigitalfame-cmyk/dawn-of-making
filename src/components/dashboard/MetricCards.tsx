@@ -51,7 +51,7 @@ export function MetricCards() {
               {active && <Pencil className="h-3.5 w-3.5 text-muted-foreground" />}
             </span>
             <span className="flex items-baseline gap-3">
-              <span className="text-2xl font-semibold text-foreground">
+              <span className="whitespace-nowrap text-2xl font-semibold text-foreground">
                 {formatMetricTotal(s.key, s.series.total, currency)}
               </span>
               <span
