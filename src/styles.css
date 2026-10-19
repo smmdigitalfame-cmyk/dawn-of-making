@@ -179,3 +179,13 @@
 .fade-in-bg { animation: fade-in-bg 0.25s ease-out; }
 @keyframes editor-in { from { opacity: 0; transform: translateY(12px) scale(0.97); } to { opacity: 1; transform: none; } }
 .editor-in { animation: editor-in 0.25s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* Live visitors dot — matches real recording: bright green that deepens with a faint halo */
+.live-dot {
+  background-color: rgb(82 222 118);
+  animation: live-dot-pulse 1.6s ease-in-out infinite;
+}
+@keyframes live-dot-pulse {
+  0%, 100% { background-color: rgb(82 222 118); box-shadow: 0 0 0 0 rgb(34 197 94 / 0); }
+  50% { background-color: rgb(30 209 73); box-shadow: 0 0 0 3px rgb(34 197 94 / 0.18); }
+}

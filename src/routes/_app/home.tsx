@@ -40,10 +40,7 @@ function HomePage() {
         <DateRangePicker />
         <ChannelSelect />
         <span className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-[13px] font-medium text-foreground shadow-sm">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-60" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
-          </span>
+          <span className="live-dot relative inline-flex h-3 w-3 rounded-full" />
           {visitors} {t("visitors")}
         </span>
         <span className="ml-auto rounded-lg border border-border bg-card px-3 py-2 text-[13px] text-foreground shadow-sm">
