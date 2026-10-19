@@ -1,0 +1,236 @@
+// Pure data layer for the Dashora dashboard: date ranges, deterministic
+// series generation, currency conversion and formatting. No React here so
+// every rule stays unit-testable.
+
+export type RangeKey =
+  | "today"
+  | "30min"
+  | "yesterday"
+  | "12h"
+  | "7d"
+  | "30d"
+  | "90d"
+  | "365d"
+  | "12m"
+  | "lastweek"
+  | "lastmonth";
+
+export type MetricKey = "sales" | "visits" | "orders" | "conversion";
+
+export interface RangeDef {
+  key: RangeKey;
+  label: string;
+  points: number;
+  /** How x-axis ticks are labelled. */
+  axis: "hours" | "minutes" | "days" | "d-index" | "months";
+}
+
+export const RANGES: RangeDef[] = [
+  { key: "today", label: "Today", points: 23, axis: "hours" },
+  { key: "30min", label: "Last 30 minutes", points: 30, axis: "minutes" },
+  { key: "yesterday", label: "Yesterday", points: 23, axis: "hours" },
+  { key: "12h", label: "Last 12 hours", points: 24, axis: "hours" },
+  { key: "7d", label: "Last 7 days", points: 7, axis: "days" },
+  { key: "30d", label: "Last 30 days", points: 30, axis: "days" },
+  { key: "90d", label: "Last 90 days", points: 90, axis: "d-index" },
+  { key: "365d", label: "Last 365 days", points: 52, axis: "d-index" },
+  { key: "12m", label: "Last 12 months", points: 12, axis: "months" },
+  { key: "lastweek", label: "Last week", points: 7, axis: "days" },
+  { key: "lastmonth", label: "Last month", points: 30, axis: "days" },
+];
+
+export function getRange(key: RangeKey): RangeDef {
+  const found = RANGES.find((r) => r.key === key);
+  if (!found) throw new Error(`Unknown range: ${key}`);
+  return found;
+}
+
+export const METRICS: { key: MetricKey; label: string }[] = [
+  { key: "sales", label: "Total sales" },
+  { key: "visits", label: "Visits" },
+  { key: "orders", label: "Orders" },
+  { key: "conversion", label: "Conversion rate" },
+];
+
+// ---------------------------------------------------------------------------
+// Deterministic pseudo-random generator so a given range always renders the
+// same shape (stable across reloads, like a real store's data).
+// ---------------------------------------------------------------------------
+
+function mulberry32(seed: number) {
+  return () => {
+    seed |= 0;
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function hashString(input: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < input.length; i++) {
+    h ^= input.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+export interface SeriesPoint {
+  label: string;
+  current: number;
+  previous: number;
+}
+
+/** Build one wavy series of `points` values, deterministic per seed. */
+function waveSeries(points: number, seed: number, base: number, amp: number) {
+  const rand = mulberry32(seed);
+  const phase1 = rand() * Math.PI * 2;
+  const phase2 = rand() * Math.PI * 2;
+  const freq1 = 2 + rand() * 3;
+  const freq2 = 5 + rand() * 5;
+  const out: number[] = [];
+  for (let i = 0; i < points; i++) {
+    const t = i / Math.max(points - 1, 1);
+    const wave =
+      Math.sin(t * Math.PI * freq1 + phase1) * 0.6 +
+      Math.sin(t * Math.PI * freq2 + phase2) * 0.4;
+    const noise = (rand() - 0.5) * 0.35;
+    const v = base + amp * (wave + noise);
+    out.push(Math.max(0, v));
+  }
+  return out;
+}
+
+function axisLabel(def: RangeDef, i: number): string {
+  switch (def.axis) {
+    case "hours":
+      return `${String(i).padStart(2, "0")} h`;
+    case "minutes":
+      return `${i} m`;
+    case "days":
+      return `${i + 1}`;
+    case "d-index":
+      return `D${i + 1}`;
+    case "months":
+      return `M${i + 1}`;
+  }
+}
+
+export interface MetricSeries {
+  points: SeriesPoint[];
+  total: number;
+  previousTotal: number;
+  /** Percent change vs previous period, e.g. 67 means +67%. */
+  changePct: number;
+}
+
+/** Generate the series for one metric over a range. Sales are in INR. */
+export function getMetricSeries(metric: MetricKey, range: RangeKey): MetricSeries {
+  const def = getRange(range);
+  const seed = hashString(`${metric}:${range}`);
+
+  const scale: Record<MetricKey, { base: number; amp: number }> = {
+    sales: { base: 9000, amp: 4200 },
+    visits: { base: 900, amp: 380 },
+    orders: { base: 34, amp: 15 },
+    conversion: { base: 2.1, amp: 0.9 },
+  };
+  const { base, amp } = scale[metric];
+
+  const current = waveSeries(def.points, seed, base, amp);
+  const previous = waveSeries(def.points, seed + 7919, base * 0.62, amp * 0.6);
+
+  const points: SeriesPoint[] = current.map((v, i) => ({
+    label: axisLabel(def, i),
+    current: Math.round(v * 100) / 100,
+    previous: Math.round(previous[i] * 100) / 100,
+  }));
+
+  const total = current.reduce((a, b) => a + b, 0);
+  const previousTotal = previous.reduce((a, b) => a + b, 0);
+  const changePct =
+    previousTotal === 0 ? 0 : Math.round(((total - previousTotal) / previousTotal) * 100);
+
+  return {
+    points,
+    total: Math.round(total * 100) / 100,
+    previousTotal: Math.round(previousTotal * 100) / 100,
+    changePct,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Currency
+// ---------------------------------------------------------------------------
+
+export interface Currency {
+  code: string;
+  symbol: string;
+  /** Multiply an INR amount by this to get the amount in this currency. */
+  rateFromINR: number;
+}
+
+export const CURRENCIES: Currency[] = [
+  { code: "MAD", symbol: "DH", rateFromINR: 0.113 },
+  { code: "USD", symbol: "$", rateFromINR: 0.0114 },
+  { code: "EUR", symbol: "€", rateFromINR: 0.0098 },
+  { code: "GBP", symbol: "£", rateFromINR: 0.0085 },
+  { code: "CAD", symbol: "C$", rateFromINR: 0.0158 },
+  { code: "AUD", symbol: "A$", rateFromINR: 0.0173 },
+  { code: "CHF", symbol: "CHF", rateFromINR: 0.0092 },
+  { code: "JPY", symbol: "¥", rateFromINR: 1.71 },
+  { code: "CNY", symbol: "¥", rateFromINR: 0.081 },
+  { code: "INR", symbol: "₹", rateFromINR: 1 },
+  { code: "BRL", symbol: "R$", rateFromINR: 0.061 },
+];
+
+export function getCurrency(code: string): Currency {
+  const found = CURRENCIES.find((c) => c.code === code);
+  if (!found) throw new Error(`Unknown currency: ${code}`);
+  return found;
+}
+
+export function convertFromINR(amountINR: number, code: string): number {
+  return amountINR * getCurrency(code).rateFromINR;
+}
+
+/** Format like the store admin: grouped number followed by the symbol, e.g. "975,000 $". */
+export function formatMoney(amountINR: number, code: string): string {
+  const currency = getCurrency(code);
+  const converted = convertFromINR(amountINR, code);
+  const rounded = Math.round(converted * 100) / 100;
+  const text = rounded.toLocaleString("en-US", {
+    minimumFractionDigits: rounded % 1 === 0 ? 0 : 2,
+    maximumFractionDigits: 2,
+  });
+  return `${text} ${currency.symbol}`;
+}
+
+/** Compact axis formatting: 1500 -> "1.5K", 2_550_000 -> "2.55M". */
+export function formatCompact(value: number): string {
+  if (value >= 1_000_000) return `${trimZeros(value / 1_000_000)}M`;
+  if (value >= 1_000) return `${trimZeros(value / 1_000)}K`;
+  return `${Math.round(value * 100) / 100}`;
+}
+
+function trimZeros(n: number): string {
+  return (Math.round(n * 100) / 100).toString();
+}
+
+/** Format a metric total for the card header. */
+export function formatMetricTotal(metric: MetricKey, total: number, currencyCode: string): string {
+  if (metric === "sales") return formatMoney(total, currencyCode);
+  if (metric === "conversion") return `${(Math.round(total * 100) / 100).toFixed(2)}%`;
+  return Math.round(total).toLocaleString("en-US");
+}
+
+/** Y-axis tick label per metric. */
+export function formatAxisTick(metric: MetricKey, value: number, currencyCode: string): string {
+  if (metric === "sales") {
+    const converted = convertFromINR(value, currencyCode);
+    return formatCompact(converted);
+  }
+  if (metric === "conversion") return `${Math.round(value)}%`;
+  return formatCompact(value);
+}
