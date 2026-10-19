@@ -65,7 +65,7 @@ function NavLink({
           : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60",
       )}
     >
-      <Icon className="h-4 w-4 shrink-0" strokeWidth={1.8} />
+      <Icon className="h-[18px] w-[18px] shrink-0" fill="currentColor" strokeWidth={1.2} />
       <span className="flex-1 truncate">{label}</span>
       {badge && (
         <span className="rounded-full bg-muted px-1.5 py-0.5 text-[11px] font-semibold text-muted-foreground">
@@ -124,7 +124,7 @@ export function Sidebar() {
           <aside className="absolute inset-y-0 left-0 w-[260px] bg-sidebar shadow-xl">
             <div className="flex items-center justify-between px-3 py-2">
               <span className="flex items-center gap-2 text-sm font-semibold">
-                <Package className="h-4 w-4" /> Dashora
+                <img src={bagLogo.url} alt="Store logo" className="h-6 w-auto" /> Shopify
               </span>
               <button
                 aria-label="Close menu"
