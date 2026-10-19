@@ -15,7 +15,7 @@ function AppLayout() {
         <TopBar />
         <Sidebar />
         <LiveBanners />
-        <main className="pt-14 lg:pl-[220px]">
+        <main className="pt-[72px] lg:pl-[300px]">
           <div className="px-4 py-6 lg:px-8">
             <Outlet />
           </div>

@@ -70,19 +70,13 @@ export function SalesChart() {
   const tickInterval = Math.max(0, Math.floor(def.points / 12) - 1);
 
   return (
-    <div className="h-[260px] w-full">
+    <div className="h-[340px] w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           key={`${metric}-${range}-${currency}`}
           data={series.points}
           margin={{ top: 8, right: 8, bottom: 0, left: -8 }}
         >
-          <defs>
-            <linearGradient id="dashoraLine" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--color-teal)" stopOpacity={0.18} />
-              <stop offset="100%" stopColor="var(--color-teal)" stopOpacity={0} />
-            </linearGradient>
-          </defs>
           <CartesianGrid vertical={false} stroke="var(--color-border)" />
           <XAxis
             dataKey="label"
@@ -116,7 +110,7 @@ export function SalesChart() {
             dataKey="current"
             stroke="var(--color-teal)"
             strokeWidth={2.5}
-            fill="url(#dashoraLine)"
+            fill="transparent"
             dot={false}
             activeDot={{ r: 4, fill: "var(--color-teal)" }}
             isAnimationActive

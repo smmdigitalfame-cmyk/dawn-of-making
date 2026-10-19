@@ -36,39 +36,40 @@ export function MetricCards() {
             key={s.key}
             onClick={() => setMetric(s.key)}
             className={cn(
-              "group relative flex flex-col items-start gap-0.5 rounded-lg px-4 py-3 text-left transition-colors",
+              "group relative flex flex-col items-start gap-1 rounded-lg px-5 py-4 text-left transition-colors",
               active ? "bg-muted" : "hover:bg-muted/60",
             )}
           >
             <span
               className={cn(
-                "flex items-center gap-1.5 text-[13px] font-medium text-foreground",
-                active && "underline decoration-dotted underline-offset-4",
+                "flex items-center gap-1.5 text-sm font-medium text-foreground",
+                "underline decoration-dotted underline-offset-4",
+                !active && "text-muted-foreground decoration-muted-foreground/50",
               )}
             >
               {s.label}
-              {active && <Pencil className="h-3 w-3 text-muted-foreground" />}
+              {active && <Pencil className="h-3.5 w-3.5 text-muted-foreground" />}
             </span>
             <span className="flex items-baseline gap-3">
-              <span className="text-lg font-semibold text-foreground">
+              <span className="whitespace-nowrap text-2xl font-semibold text-foreground">
                 {formatMetricTotal(s.key, s.series.total, currency)}
               </span>
               <span
                 className={cn(
-                  "flex items-center gap-0.5 text-xs font-semibold",
+                  "flex items-center gap-0.5 text-[13px] font-semibold",
                   positive ? "text-success" : "text-destructive",
                 )}
               >
                 {positive ? (
-                  <TrendingUp className="h-3 w-3" />
+                  <TrendingUp className="h-3.5 w-3.5" />
                 ) : (
-                  <TrendingDown className="h-3 w-3" />
+                  <TrendingDown className="h-3.5 w-3.5" />
                 )}
                 {Math.abs(s.series.changePct)}%
               </span>
             </span>
             {active && (
-              <ChevronUp className="absolute right-3 top-3 h-4 w-4 text-muted-foreground" />
+              <ChevronUp className="absolute right-4 top-4 h-4 w-4 text-muted-foreground" />
             )}
           </button>
         );
