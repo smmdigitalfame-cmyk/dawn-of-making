@@ -34,19 +34,19 @@ function HomePage() {
   const legend = periodLegend(range);
 
   return (
-    <div className="mx-auto flex max-w-4xl flex-col gap-6">
+    <div className="mx-auto flex max-w-6xl flex-col gap-6">
       {/* Filter row */}
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2.5">
         <DateRangePicker />
         <ChannelSelect />
-        <span className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-[13px] font-medium text-foreground shadow-sm">
-          <span className="relative flex h-2 w-2">
+        <span className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground shadow-sm">
+          <span className="relative flex h-2.5 w-2.5">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-60" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
           </span>
           {visitors} visitors
         </span>
-        <span className="ml-auto rounded-lg border border-border bg-card px-3 py-1.5 text-[13px] text-foreground shadow-sm">
+        <span className="ml-auto rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-foreground shadow-sm">
           Next payout:{" "}
           <strong className="font-semibold">{formatMoney(payoutINR, currency)}</strong>
         </span>
@@ -72,12 +72,12 @@ function HomePage() {
 
       {/* Action pills */}
       <div className="flex flex-wrap gap-3">
-        <button className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-[13px] font-medium text-foreground shadow-sm transition-colors hover:bg-muted">
-          <Package className="h-4 w-4 text-muted-foreground" />
+        <button className="flex items-center gap-2.5 rounded-xl border border-border bg-card px-5 py-3 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted">
+          <Package className="h-5 w-5 text-muted-foreground" />
           <strong className="font-semibold">12+</strong> Orders to fulfill
         </button>
-        <button className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-[13px] font-medium text-foreground shadow-sm transition-colors hover:bg-muted">
-          <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+        <button className="flex items-center gap-2.5 rounded-xl border border-border bg-card px-5 py-3 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted">
+          <AlertTriangle className="h-5 w-5 text-muted-foreground" />
           <strong className="font-semibold">3</strong> High risk orders
         </button>
       </div>
