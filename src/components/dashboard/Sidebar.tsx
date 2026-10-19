@@ -64,7 +64,7 @@ function NavLink({
           : "text-sidebar-foreground hover:bg-sidebar-accent/60",
       )}
     >
-      <img src={icon} alt="" className="h-[18px] w-[18px] shrink-0 object-contain" />
+      <img src={icon} alt="" className="h-[22px] w-[22px] shrink-0 object-contain" />
       <span className="flex-1 truncate">{label}</span>
       {badge && (
         <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-semibold text-muted-foreground">
