@@ -113,7 +113,7 @@ export function SalesChart() {
             dot={false}
             activeDot={{ r: 4, fill: "var(--color-teal)" }}
             isAnimationActive
-            animationDuration={900}
+            animationDuration={1100}
             animationEasing="ease-out"
           />
         </AreaChart>

@@ -4,7 +4,21 @@ import { METRICS, formatMetricTotal } from "@/lib/dashboard-data";
 import { useDashboard } from "@/lib/dashboard-store";
 import { cn } from "@/lib/utils";
 
-export function MetricCards() {
+function Sparkline({ values }: { values: number[] }) {
+  if (values.length < 2) return null;
+  const max = Math.max(...values), min = Math.min(...values);
+  const span = max - min || 1;
+  const d = values
+    .map((v, i) => `${i ? "L" : "M"}${((i / (values.length - 1)) * 60).toFixed(1)},${(18 - ((v - min) / span) * 16).toFixed(1)}`)
+    .join(" ");
+  return (
+    <svg viewBox="0 0 60 20" className="spark-in h-5 w-[60px] shrink-0" aria-hidden>
+      <path d={d} fill="none" stroke="var(--color-teal)" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function MetricCards({ collapsed = false, onToggle }: { collapsed?: boolean; onToggle?: (() => void) | undefined }) {
   const { metric, setMetric, currency, seriesFor, setEditorOpen, t, custom } = useDashboard();
 
   const summaries = useMemo(
@@ -88,11 +102,22 @@ export function MetricCards() {
                 )}
                 {Math.abs(s.series.changePct)}%
               </span>
+              {collapsed && <Sparkline values={s.series.points.map((p) => p.current)} />}
             </span>
           </button>
         );
       })}
-      <ChevronUp className="absolute right-4 top-6 h-4 w-4 text-muted-foreground" />
+      <button
+        type="button"
+        aria-label={collapsed ? "Expand chart" : "Collapse chart"}
+        aria-expanded={!collapsed}
+        onClick={onToggle}
+        className="absolute right-2 top-4 rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted"
+      >
+        <ChevronUp
+          className={cn("h-4 w-4 transition-transform duration-300 ease-out", collapsed && "rotate-180")}
+        />
+      </button>
     </div>
   );
 }

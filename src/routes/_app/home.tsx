@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import pkgIcon from "@/assets/icons/home-pkg.png.asset.json";
 import riskIcon from "@/assets/icons/home-risk.png.asset.json";
 import { AskBox } from "@/components/dashboard/AskBox";
@@ -32,6 +33,7 @@ export const Route = createFileRoute("/_app/home")({
 
 function HomePage() {
   const { visitors, payoutINR, currency, range, custom, t } = useDashboard();
+  const [chartCollapsed, setChartCollapsed] = useState(false);
   const legend = periodLegend(range);
 
   return (
@@ -52,9 +54,13 @@ function HomePage() {
 
       {/* Metrics + chart card */}
       <div className="relative rounded-xl border border-border bg-card shadow-sm">
-        <MetricCards />
+        <MetricCards collapsed={chartCollapsed} onToggle={() => setChartCollapsed((c: boolean) => !c)} />
+        <div
+          className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${chartCollapsed ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"}`}
+        >
+          <div className="overflow-hidden">
         <div className="px-2 pb-2">
-          <SalesChart />
+          {!chartCollapsed && <SalesChart />}
         </div>
         <div className="flex items-center justify-center gap-6 border-t border-border py-2.5 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5">
@@ -65,6 +71,8 @@ function HomePage() {
             <span className="h-2 w-2 rounded-full bg-chart-2" />
             {legend.previous}
           </span>
+        </div>
+          </div>
         </div>
       </div>
 

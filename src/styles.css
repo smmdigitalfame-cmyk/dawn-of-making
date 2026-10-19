@@ -189,3 +189,7 @@
   0%, 100% { background-color: rgb(82 222 118); box-shadow: 0 0 0 0 rgb(34 197 94 / 0); }
   50% { background-color: rgb(30 209 73); box-shadow: 0 0 0 3px rgb(34 197 94 / 0.18); }
 }
+
+/* Collapsed-card sparklines fade/slide in like the reference */
+.spark-in { animation: spark-in 0.35s ease-out both; }
+@keyframes spark-in { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: none; } }
