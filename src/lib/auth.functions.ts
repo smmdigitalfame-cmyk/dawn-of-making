@@ -44,8 +44,9 @@ export const login = createServerFn({ method: "POST" })
     const pass = process.env["DASHBOARD_PASSWORD"];
     const secret = process.env["SESSION_SECRET"];
     if (!user || !pass || !secret) return { ok: false, error: "Login is not set up yet." };
-    const okUser = safeEqual(data.username, user);
-    const okPass = safeEqual(data.password, pass);
+    // Tolerate stray spaces/newlines (common when pasting secrets) and username case.
+    const okUser = safeEqual(data.username.trim().toLowerCase(), user.trim().toLowerCase());
+    const okPass = safeEqual(data.password.trim(), pass.trim());
     if (!okUser || !okPass) return { ok: false, error: "Incorrect username or password." };
     const exp = String(Date.now() + MAX_AGE * 1000);
     setCookie(COOKIE, `${exp}.${await sign(exp, secret)}`, {
