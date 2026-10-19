@@ -54,7 +54,7 @@ function HomePage() {
 
       {/* Metrics + chart card */}
       <div className="relative rounded-xl border border-border bg-card shadow-sm">
-        <MetricCards collapsed={chartCollapsed} onToggle={() => setChartCollapsed((c) => !c)} />
+        <MetricCards collapsed={chartCollapsed} onToggle={() => setChartCollapsed((c: boolean) => !c)} />
         <div
           className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${chartCollapsed ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"}`}
         >
