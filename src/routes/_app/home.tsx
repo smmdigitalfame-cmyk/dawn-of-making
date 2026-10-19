@@ -52,9 +52,13 @@ function HomePage() {
 
       {/* Metrics + chart card */}
       <div className="relative rounded-xl border border-border bg-card shadow-sm">
-        <MetricCards />
+        <MetricCards collapsed={chartCollapsed} onToggle={() => setChartCollapsed((c) => !c)} />
+        <div
+          className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${chartCollapsed ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"}`}
+        >
+          <div className="overflow-hidden">
         <div className="px-2 pb-2">
-          <SalesChart />
+          {!chartCollapsed && <SalesChart />}
         </div>
         <div className="flex items-center justify-center gap-6 border-t border-border py-2.5 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5">
