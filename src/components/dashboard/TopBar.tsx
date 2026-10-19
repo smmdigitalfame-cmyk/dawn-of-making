@@ -1,4 +1,5 @@
 import { Bell, ChevronDown, LogOut, Menu, Search, Store, UserRound } from "lucide-react";
+import { logout } from "@/lib/auth.functions";
 import sidekickTop from "@/assets/icons/topbar-sidekick.png.asset.json";
 import { useState } from "react";
 import { useDashboard } from "@/lib/dashboard-store";
