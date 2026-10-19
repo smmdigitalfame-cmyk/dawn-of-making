@@ -1,4 +1,5 @@
 import { Bell, ChevronDown, LogOut, Menu, Search, Store, UserRound } from "lucide-react";
+import sidekickTop from "@/assets/icons/topbar-sidekick.png.asset.json";
 import { useState } from "react";
 import { useDashboard } from "@/lib/dashboard-store";
 import { badgeTextColor } from "@/lib/dashboard-data";
@@ -48,10 +49,10 @@ export function TopBar() {
 
         <div className="ml-auto flex items-center gap-1 md:ml-0">
           <button
-            aria-label="Store"
+            aria-label="Sidekick"
             className="rounded-md p-2.5 hover:bg-topbar-foreground/10"
           >
-            <Store className="h-[22px] w-[22px]" />
+            <img src={sidekickTop.url} alt="" className="h-[26px] w-[26px] object-contain" />
           </button>
           <button
             aria-label="Notifications"
