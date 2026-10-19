@@ -130,7 +130,6 @@ function AnalyticsPage() {
         <span className="underline underline-offset-2">Learn more about analytics</span>
       </p>
 
-      <p className="hidden">{legend.current}</p>
     </div>
   );
 }
