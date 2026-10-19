@@ -2,36 +2,7 @@ import { Bell, ChevronDown, LogOut, Menu, Search, Store, UserRound } from "lucid
 import { useState } from "react";
 import { useDashboard } from "@/lib/dashboard-store";
 import { NotificationPanel } from "./NotificationPanel";
-
-/** Storefront bag logo with the brand initial, like the reference admin. */
-function BagLogo() {
-  return (
-    <svg viewBox="0 0 36 36" className="h-7 w-7" aria-hidden="true">
-      <path
-        d="M9.5 12.5h17l-1.3 15.2a2.4 2.4 0 0 1-2.4 2.2H13.2a2.4 2.4 0 0 1-2.4-2.2L9.5 12.5z"
-        fill="currentColor"
-      />
-      <path
-        d="M13.5 12.5a4.5 4.5 0 0 1 9 0"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-      />
-      <text
-        x="18"
-        y="25.5"
-        textAnchor="middle"
-        fontSize="12"
-        fontWeight="800"
-        fill="var(--color-topbar)"
-        fontFamily="inherit"
-      >
-        D
-      </text>
-    </svg>
-  );
-}
+import bagLogo from "@/assets/bag-logo.png.asset.json";
 
 export function TopBar() {
   const { setSidebarOpen } = useDashboard();
@@ -49,8 +20,7 @@ export function TopBar() {
         </button>
 
         <div className="flex items-center gap-2">
-          <BagLogo />
-          <span className="text-lg font-bold tracking-tight">Dashora</span>
+          <img src={bagLogo.url} alt="Store logo" className="h-7 w-auto" />
           <span className="hidden rounded-full border border-topbar-foreground/30 px-2.5 py-0.5 text-[11px] font-medium text-topbar-foreground/70 sm:block">
             Winter &apos;26
           </span>
