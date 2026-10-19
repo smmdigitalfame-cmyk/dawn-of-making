@@ -1,11 +1,16 @@
-import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 import { CustomizeDialog } from "@/components/dashboard/CustomizeDialog";
 import { LiveBanners } from "@/components/dashboard/LiveBanners";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { TopBar } from "@/components/dashboard/TopBar";
+import { getAuthSession } from "@/lib/auth.functions";
 import { DashboardProvider } from "@/lib/dashboard-store";
 
 export const Route = createFileRoute("/_app")({
+  beforeLoad: async () => {
+    const s = await getAuthSession();
+    if (!s.authenticated) throw redirect({ to: "/login" });
+  },
   component: AppLayout,
 });
 
