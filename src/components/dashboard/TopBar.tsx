@@ -52,7 +52,7 @@ export function TopBar() {
             aria-label="Sidekick"
             className="rounded-md p-2.5 hover:bg-topbar-foreground/10"
           >
-            <img src={sidekickTop.url} alt="" className="h-[26px] w-[26px] object-contain" />
+            <img src={sidekickTop.url} alt="" className="h-[30px] w-[30px] object-contain" />
           </button>
           <button
             aria-label="Notifications"
