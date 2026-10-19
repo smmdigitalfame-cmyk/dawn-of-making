@@ -10,33 +10,225 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as AppAnalyticsRouteImport } from './routes/_app/analytics'
+import { Route as AppAppsRouteImport } from './routes/_app/apps'
+import { Route as AppContentRouteImport } from './routes/_app/content'
+import { Route as AppCustomersRouteImport } from './routes/_app/customers'
+import { Route as AppDiscountsRouteImport } from './routes/_app/discounts'
+import { Route as AppFinancesRouteImport } from './routes/_app/finances'
+import { Route as AppHomeRouteImport } from './routes/_app/home'
+import { Route as AppMarketingRouteImport } from './routes/_app/marketing'
+import { Route as AppMarketsRouteImport } from './routes/_app/markets'
+import { Route as AppMetaobjectsRouteImport } from './routes/_app/metaobjects'
+import { Route as AppOnlineStoreRouteImport } from './routes/_app/online-store'
+import { Route as AppOrdersRouteImport } from './routes/_app/orders'
+import { Route as AppPosRouteImport } from './routes/_app/pos'
+import { Route as AppProductsRouteImport } from './routes/_app/products'
+import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAppsRoute = AppAppsRouteImport.update({
+  id: '/apps',
+  path: '/apps',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppContentRoute = AppContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCustomersRoute = AppCustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDiscountsRoute = AppDiscountsRouteImport.update({
+  id: '/discounts',
+  path: '/discounts',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFinancesRoute = AppFinancesRouteImport.update({
+  id: '/finances',
+  path: '/finances',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHomeRoute = AppHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMarketingRoute = AppMarketingRouteImport.update({
+  id: '/marketing',
+  path: '/marketing',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMarketsRoute = AppMarketsRouteImport.update({
+  id: '/markets',
+  path: '/markets',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMetaobjectsRoute = AppMetaobjectsRouteImport.update({
+  id: '/metaobjects',
+  path: '/metaobjects',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOnlineStoreRoute = AppOnlineStoreRouteImport.update({
+  id: '/online-store',
+  path: '/online-store',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOrdersRoute = AppOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPosRoute = AppPosRouteImport.update({
+  id: '/pos',
+  path: '/pos',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProductsRoute = AppProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analytics': typeof AppAnalyticsRoute
+  '/apps': typeof AppAppsRoute
+  '/content': typeof AppContentRoute
+  '/customers': typeof AppCustomersRoute
+  '/discounts': typeof AppDiscountsRoute
+  '/finances': typeof AppFinancesRoute
+  '/home': typeof AppHomeRoute
+  '/marketing': typeof AppMarketingRoute
+  '/markets': typeof AppMarketsRoute
+  '/metaobjects': typeof AppMetaobjectsRoute
+  '/online-store': typeof AppOnlineStoreRoute
+  '/orders': typeof AppOrdersRoute
+  '/pos': typeof AppPosRoute
+  '/products': typeof AppProductsRoute
+  '/settings': typeof AppSettingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analytics': typeof AppAnalyticsRoute
+  '/apps': typeof AppAppsRoute
+  '/content': typeof AppContentRoute
+  '/customers': typeof AppCustomersRoute
+  '/discounts': typeof AppDiscountsRoute
+  '/finances': typeof AppFinancesRoute
+  '/home': typeof AppHomeRoute
+  '/marketing': typeof AppMarketingRoute
+  '/markets': typeof AppMarketsRoute
+  '/metaobjects': typeof AppMetaobjectsRoute
+  '/online-store': typeof AppOnlineStoreRoute
+  '/orders': typeof AppOrdersRoute
+  '/pos': typeof AppPosRoute
+  '/products': typeof AppProductsRoute
+  '/settings': typeof AppSettingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_app/analytics': typeof AppAnalyticsRoute
+  '/_app/apps': typeof AppAppsRoute
+  '/_app/content': typeof AppContentRoute
+  '/_app/customers': typeof AppCustomersRoute
+  '/_app/discounts': typeof AppDiscountsRoute
+  '/_app/finances': typeof AppFinancesRoute
+  '/_app/home': typeof AppHomeRoute
+  '/_app/marketing': typeof AppMarketingRoute
+  '/_app/markets': typeof AppMarketsRoute
+  '/_app/metaobjects': typeof AppMetaobjectsRoute
+  '/_app/online-store': typeof AppOnlineStoreRoute
+  '/_app/orders': typeof AppOrdersRoute
+  '/_app/pos': typeof AppPosRoute
+  '/_app/products': typeof AppProductsRoute
+  '/_app/settings': typeof AppSettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/analytics'
+    | '/apps'
+    | '/content'
+    | '/customers'
+    | '/discounts'
+    | '/finances'
+    | '/home'
+    | '/marketing'
+    | '/markets'
+    | '/metaobjects'
+    | '/online-store'
+    | '/orders'
+    | '/pos'
+    | '/products'
+    | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/analytics'
+    | '/apps'
+    | '/content'
+    | '/customers'
+    | '/discounts'
+    | '/finances'
+    | '/home'
+    | '/marketing'
+    | '/markets'
+    | '/metaobjects'
+    | '/online-store'
+    | '/orders'
+    | '/pos'
+    | '/products'
+    | '/settings'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/_app/analytics'
+    | '/_app/apps'
+    | '/_app/content'
+    | '/_app/customers'
+    | '/_app/discounts'
+    | '/_app/finances'
+    | '/_app/home'
+    | '/_app/marketing'
+    | '/_app/markets'
+    | '/_app/metaobjects'
+    | '/_app/online-store'
+    | '/_app/orders'
+    | '/_app/pos'
+    | '/_app/products'
+    | '/_app/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +240,162 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app/analytics': {
+      id: '/_app/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/apps': {
+      id: '/_app/apps'
+      path: '/apps'
+      fullPath: '/apps'
+      preLoaderRoute: typeof AppAppsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/content': {
+      id: '/_app/content'
+      path: '/content'
+      fullPath: '/content'
+      preLoaderRoute: typeof AppContentRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/customers': {
+      id: '/_app/customers'
+      path: '/customers'
+      fullPath: '/customers'
+      preLoaderRoute: typeof AppCustomersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/discounts': {
+      id: '/_app/discounts'
+      path: '/discounts'
+      fullPath: '/discounts'
+      preLoaderRoute: typeof AppDiscountsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/finances': {
+      id: '/_app/finances'
+      path: '/finances'
+      fullPath: '/finances'
+      preLoaderRoute: typeof AppFinancesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/home': {
+      id: '/_app/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AppHomeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/marketing': {
+      id: '/_app/marketing'
+      path: '/marketing'
+      fullPath: '/marketing'
+      preLoaderRoute: typeof AppMarketingRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/markets': {
+      id: '/_app/markets'
+      path: '/markets'
+      fullPath: '/markets'
+      preLoaderRoute: typeof AppMarketsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/metaobjects': {
+      id: '/_app/metaobjects'
+      path: '/metaobjects'
+      fullPath: '/metaobjects'
+      preLoaderRoute: typeof AppMetaobjectsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/online-store': {
+      id: '/_app/online-store'
+      path: '/online-store'
+      fullPath: '/online-store'
+      preLoaderRoute: typeof AppOnlineStoreRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/orders': {
+      id: '/_app/orders'
+      path: '/orders'
+      fullPath: '/orders'
+      preLoaderRoute: typeof AppOrdersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/pos': {
+      id: '/_app/pos'
+      path: '/pos'
+      fullPath: '/pos'
+      preLoaderRoute: typeof AppPosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/products': {
+      id: '/_app/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof AppProductsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppAnalyticsRoute: typeof AppAnalyticsRoute
+  AppAppsRoute: typeof AppAppsRoute
+  AppContentRoute: typeof AppContentRoute
+  AppCustomersRoute: typeof AppCustomersRoute
+  AppDiscountsRoute: typeof AppDiscountsRoute
+  AppFinancesRoute: typeof AppFinancesRoute
+  AppHomeRoute: typeof AppHomeRoute
+  AppMarketingRoute: typeof AppMarketingRoute
+  AppMarketsRoute: typeof AppMarketsRoute
+  AppMetaobjectsRoute: typeof AppMetaobjectsRoute
+  AppOnlineStoreRoute: typeof AppOnlineStoreRoute
+  AppOrdersRoute: typeof AppOrdersRoute
+  AppPosRoute: typeof AppPosRoute
+  AppProductsRoute: typeof AppProductsRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAnalyticsRoute: AppAnalyticsRoute,
+  AppAppsRoute: AppAppsRoute,
+  AppContentRoute: AppContentRoute,
+  AppCustomersRoute: AppCustomersRoute,
+  AppDiscountsRoute: AppDiscountsRoute,
+  AppFinancesRoute: AppFinancesRoute,
+  AppHomeRoute: AppHomeRoute,
+  AppMarketingRoute: AppMarketingRoute,
+  AppMarketsRoute: AppMarketsRoute,
+  AppMetaobjectsRoute: AppMetaobjectsRoute,
+  AppOnlineStoreRoute: AppOnlineStoreRoute,
+  AppOrdersRoute: AppOrdersRoute,
+  AppPosRoute: AppPosRoute,
+  AppProductsRoute: AppProductsRoute,
+  AppSettingsRoute: AppSettingsRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
