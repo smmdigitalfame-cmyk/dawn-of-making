@@ -5,7 +5,7 @@ import { ChannelSelect } from "@/components/dashboard/ChannelSelect";
 import { DateRangePicker } from "@/components/dashboard/DateRangePicker";
 import { MetricCards } from "@/components/dashboard/MetricCards";
 import { SalesChart } from "@/components/dashboard/SalesChart";
-import { formatMoney } from "@/lib/dashboard-data";
+import { formatMoney, periodLegend } from "@/lib/dashboard-data";
 import { useDashboard } from "@/lib/dashboard-store";
 
 export const Route = createFileRoute("/_app/home")({
@@ -30,7 +30,8 @@ export const Route = createFileRoute("/_app/home")({
 });
 
 function HomePage() {
-  const { visitors, payoutINR, currency, metric, range } = useDashboard();
+  const { visitors, payoutINR, currency, range } = useDashboard();
+  const legend = periodLegend(range);
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6">
@@ -57,11 +58,11 @@ function HomePage() {
         <div className="flex items-center justify-center gap-6 border-t border-border py-2.5 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-teal" />
-            Current period · {metric} · {range}
+            {legend.current}
           </span>
           <span className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-chart-2" />
-            Previous period
+            {legend.previous}
           </span>
         </div>
       </div>

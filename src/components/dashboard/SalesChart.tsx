@@ -9,39 +9,55 @@ import {
   YAxis,
 } from "recharts";
 import {
+  METRICS,
   formatAxisTick,
   formatMetricTotal,
   getMetricSeries,
   getRange,
+  type SeriesPoint,
 } from "@/lib/dashboard-data";
 import { useDashboard } from "@/lib/dashboard-store";
 
 function ChartTooltip({
   active,
   payload,
-  label,
 }: {
   active?: boolean;
-  payload?: { value?: number; dataKey?: string }[];
-  label?: string;
+  payload?: { payload?: SeriesPoint }[];
 }) {
   const { metric, currency } = useDashboard();
   if (!active || !payload || payload.length === 0) return null;
-  const current = payload.find((p) => p.dataKey === "current");
-  const previous = payload.find((p) => p.dataKey === "previous");
+  const point = payload[0]?.payload;
+  if (!point) return null;
+  const metricLabel = METRICS.find((m) => m.key === metric)?.label ?? metric;
+  const pct =
+    point.previous === 0
+      ? 0
+      : Math.round(((point.current - point.previous) / point.previous) * 100);
+  const positive = pct >= 0;
   return (
-    <div className="rounded-lg border border-border bg-popover px-3 py-2 shadow-lg">
-      <p className="text-xs font-medium text-muted-foreground">{label}</p>
-      {current && (
-        <p className="text-sm font-semibold text-foreground">
-          {formatMetricTotal(metric, Number(current.value), currency)}
-        </p>
-      )}
-      {previous && (
-        <p className="text-xs text-muted-foreground">
-          Previous: {formatMetricTotal(metric, Number(previous.value), currency)}
-        </p>
-      )}
+    <div className="w-44 rounded-xl border border-border bg-popover px-3.5 py-3 shadow-xl">
+      <p className="text-[13px] font-semibold text-foreground">{metricLabel}</p>
+      <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+        <span className="h-2 w-2 rounded-full bg-teal" />
+        {point.label}
+      </p>
+      <p className="text-lg font-semibold text-foreground">
+        {formatMetricTotal(metric, point.current, currency)}
+      </p>
+      <p className="mt-1 flex items-center gap-1 text-xs">
+        <span className={positive ? "font-semibold text-success" : "font-semibold text-destructive"}>
+          {positive ? "↗" : "↘"} {Math.abs(pct)}%
+        </span>
+        <span className="text-muted-foreground">compared to previous</span>
+      </p>
+      <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+        <span className="h-2 w-2 rounded-full bg-chart-2" />
+        {point.prevLabel}
+      </p>
+      <p className="text-sm font-semibold text-foreground">
+        {formatMetricTotal(metric, point.previous, currency)}
+      </p>
     </div>
   );
 }
