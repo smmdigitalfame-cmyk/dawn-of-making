@@ -225,11 +225,15 @@ export function getMetricSeries(metric: MetricKey, range: RangeKey): MetricSerie
   const current = waveSeries(def.points, seed, base, amp);
   const previous = waveSeries(def.points, seed + 7919, base * 0.62, amp * 0.6);
 
-  const points: SeriesPoint[] = current.map((v, i) => ({
-    label: axisLabel(def, i),
-    current: Math.round(v * 100) / 100,
-    previous: Math.round((previous[i] ?? 0) * 100) / 100,
-  }));
+  const points: SeriesPoint[] = current.map((v, i) => {
+    const pair = axisLabelPair(def, i);
+    return {
+      label: def.axis === "hours" || def.axis === "minutes" ? axisLabel(def, i) : pair.label,
+      prevLabel: pair.prevLabel,
+      current: Math.round(v * 100) / 100,
+      previous: Math.round((previous[i] ?? 0) * 100) / 100,
+    };
+  });
 
   // Rates are averaged over the period; counts and amounts are summed.
   const aggregate = (vals: number[]) =>
