@@ -104,6 +104,23 @@ function waveSeries(points: number, seed: number, base: number, amp: number) {
   return out;
 }
 
+const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const MONTHS = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+
+/** "19 Oct 2026" style date label. */
+export function formatDateLabel(d: Date): string {
+  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function daysAgo(n: number, from = new Date()): Date {
+  const d = new Date(from);
+  d.setDate(d.getDate() - n);
+  return d;
+}
+
 function axisLabel(def: RangeDef, i: number): string {
   switch (def.axis) {
     case "hours":
@@ -116,6 +133,71 @@ function axisLabel(def: RangeDef, i: number): string {
       return `D${i + 1}`;
     case "months":
       return `M${i + 1}`;
+  }
+}
+
+/** Tooltip labels: current point and the matching point in the previous period. */
+function axisLabelPair(def: RangeDef, i: number): { label: string; prevLabel: string } {
+  switch (def.axis) {
+    case "hours": {
+      const hh = String(i).padStart(2, "0");
+      const today = WEEKDAYS[new Date().getDay()];
+      const yesterday = WEEKDAYS[daysAgo(1).getDay()];
+      return { label: `${today} ${hh}:00`, prevLabel: `${yesterday} ${hh}:00` };
+    }
+    case "minutes":
+      return { label: `${i} min ago`, prevLabel: `${i + def.points} min ago` };
+    case "days": {
+      const cur = daysAgo(def.points - 1 - i);
+      const prev = daysAgo(def.points - 1 - i + def.points);
+      return {
+        label: `${WEEKDAYS[cur.getDay()]} ${cur.getDate()} ${MONTHS[cur.getMonth()]}`,
+        prevLabel: `${WEEKDAYS[prev.getDay()]} ${prev.getDate()} ${MONTHS[prev.getMonth()]}`,
+      };
+    }
+    case "d-index":
+      return { label: `Day ${i + 1}`, prevLabel: `Day ${i + 1} (prev)` };
+    case "months": {
+      const cur = new Date();
+      cur.setMonth(cur.getMonth() - (def.points - 1 - i));
+      const prev = new Date(cur);
+      prev.setFullYear(prev.getFullYear() - 1);
+      return {
+        label: `${MONTHS[cur.getMonth()]} ${cur.getFullYear()}`,
+        prevLabel: `${MONTHS[prev.getMonth()]} ${prev.getFullYear()}`,
+      };
+    }
+  }
+}
+
+/** Legend labels under the chart, e.g. "19 Oct 2026" vs "18 Oct 2026". */
+export function periodLegend(range: RangeKey): { current: string; previous: string } {
+  const def = getRange(range);
+  switch (def.axis) {
+    case "hours":
+    case "minutes":
+      return {
+        current: formatDateLabel(new Date()),
+        previous: formatDateLabel(daysAgo(1)),
+      };
+    case "days":
+      return {
+        current: `${formatDateLabel(daysAgo(def.points - 1))} – ${formatDateLabel(new Date())}`,
+        previous: `${formatDateLabel(daysAgo(def.points * 2 - 1))} – ${formatDateLabel(daysAgo(def.points))}`,
+      };
+    case "d-index":
+      return {
+        current: `${formatDateLabel(daysAgo(def.points - 1))} – ${formatDateLabel(new Date())}`,
+        previous: `${formatDateLabel(daysAgo(def.points * 2 - 1))} – ${formatDateLabel(daysAgo(def.points))}`,
+      };
+    case "months": {
+      const start = new Date();
+      start.setMonth(start.getMonth() - (def.points - 1));
+      return {
+        current: `${MONTHS[start.getMonth()]} ${start.getFullYear()} – ${MONTHS[new Date().getMonth()]} ${new Date().getFullYear()}`,
+        previous: "Previous year",
+      };
+    }
   }
 }
 
