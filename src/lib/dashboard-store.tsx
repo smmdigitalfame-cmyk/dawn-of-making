@@ -54,7 +54,7 @@ export const DEFAULT_CUSTOM: CustomSettings = {
   language: "en",
   storeName: "Shopify",
   profileName: "Dashora",
-  initials: "RD",
+  initials: "AR",
   logo: null,
   badgeColor: "#38b2c8",
   roundInitial: "D",
