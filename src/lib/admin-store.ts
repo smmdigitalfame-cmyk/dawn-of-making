@@ -104,3 +104,10 @@ export function pushScheduleDelays(
     return Math.round((Math.max(0, minutes) * 60000) / n);
   });
 }
+
+/** Random order amount in dollars between 15 and 150, sometimes with one decimal (e.g. 67.3). */
+export function randomAmountUsd(rand: () => number = Math.random): number {
+  const whole = rand() < 0.5;
+  const v = 15 + rand() * 135;
+  return whole ? Math.round(v) : Math.round(v * 10) / 10;
+}
