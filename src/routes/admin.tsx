@@ -77,12 +77,14 @@ function AdminPage() {
     setSending(true);
     setPushMsg(null);
     try {
-      const r = await sendAdminPush({ data: { title: "Shopify", body: preview } });
+      const r = await sendAdminPush({ data: preview });
       update({
         ...data,
+        nextOrderNumber: data.nextOrderNumber + 1,
         sales: [
           {
             id: newId(),
+            orderNumber: data.nextOrderNumber,
             productName: product.name,
             items,
             amountUsd: amountNum,
@@ -232,8 +234,12 @@ function AdminPage() {
                 <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-white/40">
                   Notification preview
                 </p>
-                <p className="text-sm font-semibold text-white">Shopify</p>
-                <p className="text-sm text-white/80">{preview}</p>
+                <p className="text-sm font-semibold text-white">{preview.title}</p>
+                {preview.body.split("\n").map((line) => (
+                  <p key={line} className="text-sm text-white/80">
+                    {line}
+                  </p>
+                ))}
               </div>
 
               {pushMsg && (
