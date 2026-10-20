@@ -1,6 +1,7 @@
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { Bell, LogOut, Package, Plus, Send, Trash2 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import { pushScheduleDelays, type PushScheduleMode } from "@/lib/admin-store";
 import { adminLogout, getAdminSession, sendAdminPush } from "@/lib/admin.functions";
 import {
   ADMIN_CHANNELS,
@@ -41,6 +42,11 @@ function AdminPage() {
   const [channel, setChannel] = useState<string>(ADMIN_CHANNELS[0]);
   const [pushMsg, setPushMsg] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
+  const [count, setCount] = useState(1);
+  const [mode, setMode] = useState<PushScheduleMode>("now");
+  const [minutes, setMinutes] = useState(5);
+  const dataRef = useRef(data);
+  const stopRef = useRef(false);
 
   // Product form
   const [newName, setNewName] = useState("");
@@ -72,33 +78,58 @@ function AdminPage() {
     if (p) setAmount(p.price.toFixed(2));
   }
 
+  dataRef.current = data;
+
+  async function sendOne() {
+    const cur = dataRef.current;
+    const text = orderPushText(cur.nextOrderNumber, items, amountNum, channel);
+    const r = await sendAdminPush({ data: text });
+    const next: AdminData = {
+      ...cur,
+      nextOrderNumber: cur.nextOrderNumber + 1,
+      sales: [
+        {
+          id: newId(),
+          orderNumber: cur.nextOrderNumber,
+          productName: product!.name,
+          items,
+          amountUsd: amountNum,
+          channel,
+          createdAt: Date.now(),
+        },
+        ...cur.sales,
+      ],
+    };
+    dataRef.current = next;
+    update(next);
+    return r;
+  }
+
   async function sendPush() {
     if (!product || amountNum <= 0 || items < 1) return;
     setSending(true);
     setPushMsg(null);
+    stopRef.current = false;
+    const delays = pushScheduleDelays(count, mode, minutes);
+    let sent = 0;
     try {
-      const r = await sendAdminPush({ data: preview });
-      update({
-        ...data,
-        nextOrderNumber: data.nextOrderNumber + 1,
-        sales: [
-          {
-            id: newId(),
-            orderNumber: data.nextOrderNumber,
-            productName: product.name,
-            items,
-            amountUsd: amountNum,
-            channel,
-            createdAt: Date.now(),
-          },
-          ...data.sales,
-        ],
-      });
-      setPushMsg(
-        r.devices === 0
-          ? "Notification saved, but no phone is registered yet. Turn on phone notifications from the dashboard first."
-          : `Notification sent to ${r.sent} of ${r.devices} phone(s).`,
-      );
+      for (let i = 0; i < delays.length; i++) {
+        const wait = delays[i] ?? 0;
+        if (wait > 0) {
+          setPushMsg(`Sent ${sent} of ${delays.length}. Next in ${Math.round(wait / 1000)} sec… (keep this page open)`);
+          const end = Date.now() + wait;
+          while (Date.now() < end && !stopRef.current) await new Promise((res) => setTimeout(res, 250));
+        }
+        if (stopRef.current) break;
+        const r = await sendOne();
+        sent++;
+        if (r.devices === 0) {
+          setPushMsg("No phone is registered yet. Turn on phone notifications from the dashboard first.");
+          return;
+        }
+        setPushMsg(`Sent ${sent} of ${delays.length} notification(s) to ${r.sent} of ${r.devices} phone(s).`);
+      }
+      if (stopRef.current) setPushMsg(`Stopped. ${sent} of ${delays.length} sent.`);
     } catch (e) {
       setPushMsg(e instanceof Error ? e.message : "Could not send the notification.");
     } finally {
