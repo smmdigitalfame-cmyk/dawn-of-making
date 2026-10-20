@@ -1,7 +1,7 @@
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { Bell, LogOut, Package, Plus, Send, Trash2 } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
-import { pushScheduleDelays, type PushScheduleMode } from "@/lib/admin-store";
+import { pushScheduleDelays, randomAmountUsd, type PushScheduleMode } from "@/lib/admin-store";
 import { adminLogout, getAdminSession, sendAdminPush } from "@/lib/admin.functions";
 import {
   ADMIN_CHANNELS,
@@ -45,6 +45,7 @@ function AdminPage() {
   const [count, setCount] = useState(1);
   const [mode, setMode] = useState<PushScheduleMode>("now");
   const [minutes, setMinutes] = useState(5);
+  const [randomAmt, setRandomAmt] = useState(false);
   const dataRef = useRef(data);
   const stopRef = useRef(false);
 
@@ -82,7 +83,8 @@ function AdminPage() {
 
   async function sendOne() {
     const cur = dataRef.current;
-    const text = orderPushText(cur.nextOrderNumber, items, amountNum, channel);
+    const amt = randomAmt ? randomAmountUsd() : amountNum;
+    const text = orderPushText(cur.nextOrderNumber, items, amt, channel);
     const r = await sendAdminPush({ data: text });
     const next: AdminData = {
       ...cur,
@@ -93,7 +95,7 @@ function AdminPage() {
           orderNumber: cur.nextOrderNumber,
           productName: product!.name,
           items,
-          amountUsd: amountNum,
+          amountUsd: amt,
           channel,
           createdAt: Date.now(),
         },
@@ -106,7 +108,7 @@ function AdminPage() {
   }
 
   async function sendPush() {
-    if (!product || amountNum <= 0 || items < 1) return;
+    if (!product || (!randomAmt && amountNum <= 0) || items < 1) return;
     setSending(true);
     setPushMsg(null);
     stopRef.current = false;
@@ -238,9 +240,23 @@ function AdminPage() {
                     min={0}
                     step="0.01"
                     value={amount}
+                    disabled={randomAmt}
                     onChange={(e) => setAmount(e.target.value)}
-                    className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-base text-white outline-none focus:border-[#52de76]/60"
+                    className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-base text-white outline-none focus:border-[#52de76]/60 disabled:opacity-50"
                   />
+                  <label className="mt-2 flex items-center gap-2 text-sm text-white/70">
+                    <input
+                      type="checkbox"
+                      checked={randomAmt}
+                      disabled={sending}
+                      onChange={(e) => setRandomAmt(e.target.checked)}
+                      className="h-4 w-4 accent-[#1ed149]"
+                    />
+                    Random amount
+                  </label>
+                  {randomAmt && (
+                    <p className="mt-1 text-xs text-white/50">Har notification mein alag amount: $15 se $150 tak (jaise $30, $67.3, $95).</p>
+                  )}
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="push-channel" className="mb-1.5 block text-sm font-medium text-white/70">
@@ -340,7 +356,7 @@ function AdminPage() {
 
               <button
                 onClick={sendPush}
-                disabled={sending || !product || amountNum <= 0}
+                disabled={sending || !product || (!randomAmt && amountNum <= 0)}
                 className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-[#1ed149] py-2.5 text-sm font-bold text-black transition hover:bg-[#52de76] disabled:opacity-60"
               >
                 <Send className="h-4 w-4" />
