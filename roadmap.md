@@ -17,3 +17,5 @@
 - [x] Admin panel (/admin): send Shopify-format order push with product, items, dollar amount, channel.
 - [x] Products & sales tab: add/delete products, sold count and dollar totals per product.
 - [ ] Real phone delivery check — blocked until publish + notifications enabled on a real phone.
+- [x] Auto "Allow notifications" prompt on app open (one-time banner, user gesture).
+- [ ] URL bar hide on installed APK — website side verified by Google; needs APK signing fingerprint to match assetlinks.json (user-side check).
