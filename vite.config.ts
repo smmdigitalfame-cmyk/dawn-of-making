@@ -19,7 +19,7 @@ export default defineConfig({
       workbox: {
         // Only a public offline message and icons are precached: never app/account HTML.
         globPatterns: ["offline.html", "icons/*.png"],
-        navigateFallback: undefined,
+        navigateFallback: null,
         cleanupOutdatedCaches: true,
         runtimeCaching: [
           {
