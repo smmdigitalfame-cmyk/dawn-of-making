@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { CURRENCIES } from "@/lib/dashboard-data";
 import { useDashboard } from "@/lib/dashboard-store";
 import { cn } from "@/lib/utils";
+import { enablePhonePush, PUSH_MESSAGES } from "@/lib/push-client";
+import { sendTestPush } from "@/lib/push.functions";
 
 function Field({
   label,
@@ -33,6 +35,8 @@ export function NotificationPanel({
 }) {
   const { notif, updateNotif, currency, setCurrency } = useDashboard();
   const [currencyOpen, setCurrencyOpen] = useState(false);
+  const [pushBusy, setPushBusy] = useState(false);
+  const [pushMsg, setPushMsg] = useState("");
   const currencyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -182,6 +186,60 @@ export function NotificationPanel({
           <p className="pb-2 text-center text-xs text-muted-foreground">
             Status: {notif.running ? "Live" : "Idle"}
           </p>
+
+          <div className="flex flex-col gap-2 border-t border-border pt-4">
+            <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+              Phone notifications
+            </span>
+            <button
+              type="button"
+              disabled={pushBusy}
+              onClick={async () => {
+                setPushBusy(true);
+                try {
+                  setPushMsg(PUSH_MESSAGES[await enablePhonePush()]);
+                } catch (e) {
+                  setPushMsg(e instanceof Error ? e.message : "Could not turn on notifications.");
+                } finally {
+                  setPushBusy(false);
+                }
+              }}
+              className="w-full rounded-lg bg-primary py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
+            >
+              Turn on phone notifications
+            </button>
+            <button
+              type="button"
+              disabled={pushBusy}
+              onClick={async () => {
+                setPushBusy(true);
+                try {
+                  const n = 1000 + Math.floor(Math.random() * 9000);
+                  const r = await sendTestPush({
+                    data: {
+                      title: `${notif.storeName || "Shopify"}`,
+                      body: `New order #${n} · ₹${(500 + Math.floor(Math.random() * 4500)).toLocaleString("en-IN")} · Online Store`,
+                    },
+                  });
+                  setPushMsg(
+                    r.devices === 0
+                      ? "No phone is registered yet. Turn on notifications first."
+                      : r.failures.length
+                        ? `Sent to ${r.sent}/${r.devices}. Error: ${r.failures[0]}`
+                        : `Test sent to ${r.sent} device(s).`,
+                  );
+                } catch (e) {
+                  setPushMsg(e instanceof Error ? e.message : "Could not send.");
+                } finally {
+                  setPushBusy(false);
+                }
+              }}
+              className="w-full rounded-lg border border-input bg-card py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted disabled:opacity-60"
+            >
+              Send test notification
+            </button>
+            {pushMsg && <p className="text-xs text-muted-foreground" role="status">{pushMsg}</p>}
+          </div>
         </div>
       </div>
     </div>
