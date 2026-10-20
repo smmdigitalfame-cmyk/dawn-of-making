@@ -86,7 +86,9 @@ export const sendAdminPush = createServerFn({ method: "POST" })
     let sent = 0;
     const failures: string[] = [];
     for (const s of subs ?? []) {
-      const res = await sendWebPush(s, { ...data, url: "/orders" });
+      const id = `${s.id.slice(0, 8)}-${Date.now().toString(36)}`;
+      const res = await sendWebPush(s, { ...data, id, url: "/orders" });
+      console.log(`[push-send] id=${id} status=${res.status}`);
       if (res.ok) sent++;
       else if (res.status === 404 || res.status === 410) {
         await supabaseAdmin.from("push_subscriptions").delete().eq("id", s.id);
