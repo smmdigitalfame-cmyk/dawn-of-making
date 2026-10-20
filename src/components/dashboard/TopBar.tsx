@@ -82,7 +82,7 @@ export function TopBar() {
                 <div className="min-w-0">
                   <p className="truncate text-sm font-semibold">{custom.profileName}</p>
                   <p className="truncate text-xs text-muted-foreground">
-                    dashora.myshopify.com
+                    shopify.myshopify.com
                   </p>
                 </div>
               </div>
