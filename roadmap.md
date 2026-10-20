@@ -12,3 +12,8 @@
 - [ ] Verify production worker/offline behavior — blocked until the updated website is published.
 - [ ] Generate PWABuilder AAB/APK — blocked by live publication and Android signing setup.
 - [x] Deploy Digital Asset Links with real package ID and signing fingerprint — on-device full-screen check still pending.
+# Admin panel
+- [x] Admin login page (/admin-login) with ID/password, separate admin session.
+- [x] Admin panel (/admin): send Shopify-format order push with product, items, dollar amount, channel.
+- [x] Products & sales tab: add/delete products, sold count and dollar totals per product.
+- [ ] Real phone delivery check — blocked until publish + notifications enabled on a real phone.
