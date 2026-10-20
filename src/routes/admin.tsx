@@ -279,14 +279,82 @@ function AdminPage() {
                 </p>
               )}
 
+              <div className="mt-5 rounded-xl border border-white/10 bg-black/30 p-4">
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-wide text-white/40">
+                  Notification settings
+                </p>
+                <label className="mb-1 block text-xs text-white/60" htmlFor="push-count">How many notifications</label>
+                <input
+                  id="push-count"
+                  type="number"
+                  min={1}
+                  max={100}
+                  value={count}
+                  disabled={sending}
+                  onChange={(e) => setCount(Math.min(100, Math.max(1, Number(e.target.value) || 1)))}
+                  className="mb-4 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-[#1ed149]"
+                />
+                <p className="mb-2 text-xs text-white/60">When to send</p>
+                <div className="grid gap-2 sm:grid-cols-3">
+                  {([
+                    ["now", "All at once", "Turant sab"],
+                    ["timed", "Within minutes", "Chune hue minute mein"],
+                    ["random", "Random", "2s, 4s, 3s, 1s…"],
+                  ] as const).map(([m, label, hint]) => (
+                    <button
+                      key={m}
+                      type="button"
+                      disabled={sending}
+                      onClick={() => setMode(m)}
+                      className={`rounded-lg border px-3 py-2 text-left text-sm transition ${
+                        mode === m ? "border-[#1ed149] bg-[#1ed149]/10 text-white" : "border-white/10 text-white/70 hover:bg-white/5"
+                      }`}
+                    >
+                      <span className="block font-semibold">{label}</span>
+                      <span className="block text-xs text-white/50">{hint}</span>
+                    </button>
+                  ))}
+                </div>
+                {mode === "timed" && (
+                  <div className="mt-4">
+                    <label className="mb-1 block text-xs text-white/60" htmlFor="push-minutes">Total time (minutes)</label>
+                    <input
+                      id="push-minutes"
+                      type="number"
+                      min={1}
+                      max={1440}
+                      value={minutes}
+                      disabled={sending}
+                      onChange={(e) => setMinutes(Math.min(1440, Math.max(1, Number(e.target.value) || 1)))}
+                      className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-[#1ed149]"
+                    />
+                    <p className="mt-2 text-xs text-white/50">
+                      {count} notification(s) in {minutes} min — one every {Math.round((minutes * 60) / count)} sec.
+                    </p>
+                  </div>
+                )}
+                {mode !== "now" && (
+                  <p className="mt-3 text-xs text-white/40">Keep this admin page open while notifications are being sent.</p>
+                )}
+              </div>
+
               <button
                 onClick={sendPush}
                 disabled={sending || !product || amountNum <= 0}
                 className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-[#1ed149] py-2.5 text-sm font-bold text-black transition hover:bg-[#52de76] disabled:opacity-60"
               >
                 <Send className="h-4 w-4" />
-                {sending ? "Sending…" : "Send push notification"}
+                {sending ? "Sending…" : count > 1 ? `Send ${count} notifications` : "Send push notification"}
               </button>
+              {sending && (
+                <button
+                  type="button"
+                  onClick={() => (stopRef.current = true)}
+                  className="mt-2 w-full rounded-lg border border-white/15 py-2 text-sm font-semibold text-white/80 hover:bg-white/5"
+                >
+                  Stop
+                </button>
+              )}
             </div>
           </section>
         ) : (
