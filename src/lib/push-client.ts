@@ -13,7 +13,11 @@ export async function enablePhonePush(): Promise<PushStatus> {
   if (window.top !== window.self) return "open-in-new-tab";
   const permission = Notification.permission === "granted" ? "granted" : await Notification.requestPermission();
   if (permission !== "granted") return "denied";
-  const reg = await navigator.serviceWorker.getRegistration("/");
+  // Wait (up to 10s) for the app worker to become active on first open.
+  const reg = await Promise.race([
+    navigator.serviceWorker.ready,
+    new Promise<null>((r) => setTimeout(() => r(null), 10000)),
+  ]);
   if (!reg || !reg.active?.scriptURL.endsWith("/sw.js")) return "no-worker";
   const { publicKey } = await getPushPublicKey();
   const sub = (await reg.pushManager.getSubscription()) ??

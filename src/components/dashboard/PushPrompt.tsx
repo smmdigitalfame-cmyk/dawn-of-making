@@ -17,6 +17,12 @@ export function PushPrompt() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!("Notification" in window)) return;
+    // Already allowed: silently re-register this phone every time the app opens,
+    // so a reinstalled app or expired registration keeps receiving notifications.
+    if (Notification.permission === "granted") {
+      enablePhonePush().catch(() => {});
+      return;
+    }
     if (Notification.permission !== "default") return;
     if (window.localStorage.getItem(DISMISS_KEY)) return;
     const t = window.setTimeout(() => setVisible(true), 1200);
