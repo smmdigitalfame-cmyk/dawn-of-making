@@ -30,7 +30,7 @@ export function DateRangePicker() {
       </button>
 
       {open && (
-        <div className="absolute left-0 z-30 mt-2 flex max-h-[calc(100dvh-7rem)] w-64 max-w-[calc(100vw-2rem)] flex-col rounded-xl border border-border bg-popover p-2 shadow-xl animate-in fade-in zoom-in-95 duration-150">
+        <div className="fixed left-1/2 z-30 mt-2 flex max-h-[calc(100dvh-7rem)] w-64 max-w-[calc(100vw-2rem)] -translate-x-1/2 flex-col rounded-xl border border-border bg-popover p-2 shadow-xl animate-in fade-in zoom-in-95 duration-150 sm:absolute sm:left-0 sm:translate-x-0">
           <div className="flex shrink-0 gap-1 border-b border-border pb-2">
             <span className="rounded-md bg-muted px-2.5 py-1 text-xs font-semibold text-foreground">
               Fixed
