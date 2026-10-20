@@ -1,6 +1,7 @@
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 import { CustomizeDialog } from "@/components/dashboard/CustomizeDialog";
 import { LiveBanners } from "@/components/dashboard/LiveBanners";
+import { PushPrompt } from "@/components/dashboard/PushPrompt";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { TopBar } from "@/components/dashboard/TopBar";
 import { getAuthSession } from "@/lib/auth.functions";
@@ -22,6 +23,7 @@ function AppLayout() {
         <Sidebar />
         <LiveBanners />
         <CustomizeDialog />
+        <PushPrompt />
         <main className="pt-[60px] lg:pl-[240px]">
           <div className="px-4 py-6 lg:px-8">
             <Outlet />
