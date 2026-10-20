@@ -15,30 +15,30 @@ export function TopBar() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-40 flex h-[60px] items-center gap-3 bg-topbar px-3 text-topbar-foreground lg:px-5">
+      <header className="dashboard-topbar fixed inset-x-0 top-0 z-40 grid h-[60px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-1 bg-topbar px-2 text-topbar-foreground sm:flex sm:gap-3 sm:px-3 lg:px-5">
         <button
           aria-label="Open menu"
-          className="rounded-md p-2 hover:bg-topbar-foreground/10 lg:hidden"
+          className="shrink-0 rounded-md p-2 hover:bg-topbar-foreground/10 lg:hidden"
           onClick={() => setSidebarOpen(true)}
         >
           <Menu className="h-5 w-5" />
         </button>
 
-        <div className="flex items-center">
-          <img src={custom.logo ?? bagLogo.url} alt="Store logo" className="h-7 w-auto" />
-          <span className="ml-3 text-[22px] font-extrabold leading-none tracking-[-0.02em]">{custom.storeName}</span>
-          <span className="ml-3.5 hidden rounded-full border border-topbar-foreground/25 px-3 py-[3px] text-[13px] font-bold italic tracking-wide text-topbar-foreground/70 sm:block">
+        <div className="flex min-w-0 items-center sm:max-w-[45%] lg:max-w-[40%]">
+          <img src={custom.logo ?? bagLogo.url} alt="Store logo" className="h-7 w-auto max-w-7 shrink-0 object-contain" />
+          <span className="ml-2 truncate text-[22px] font-extrabold leading-none tracking-[-0.02em] sm:ml-3" title={custom.storeName}>{custom.storeName}</span>
+          <span className="ml-3.5 hidden shrink-0 rounded-full border border-topbar-foreground/25 px-3 py-[3px] text-[13px] font-bold italic tracking-wide text-topbar-foreground/70 sm:block">
             Winter &apos;26
           </span>
         </div>
 
-        <div className="mx-auto hidden w-full max-w-xl items-center gap-2.5 rounded-lg bg-topbar-foreground/10 px-3 py-2 md:flex">
-          <Search className="h-[18px] w-[18px] text-topbar-foreground/60" />
+        <div className="mx-auto hidden w-full min-w-0 max-w-xl flex-1 items-center gap-2.5 rounded-lg bg-topbar-foreground/10 px-3 py-2 md:flex">
+          <Search className="h-[18px] w-[18px] shrink-0 text-topbar-foreground/60" />
           <input
             placeholder={t("Search")}
-            className="w-full bg-transparent text-sm text-topbar-foreground placeholder:text-topbar-foreground/50 focus:outline-none"
+            className="w-full min-w-0 bg-transparent text-sm text-topbar-foreground placeholder:text-topbar-foreground/50 focus:outline-none"
           />
-          <span className="flex items-center gap-1">
+          <span className="flex shrink-0 items-center gap-1">
             <kbd className="rounded-md border border-topbar-foreground/20 px-1.5 py-0.5 text-xs text-topbar-foreground/60">
               ⌘
             </kbd>
@@ -48,33 +48,33 @@ export function TopBar() {
           </span>
         </div>
 
-        <div className="ml-auto flex items-center gap-1 md:ml-0">
+        <div className="ml-auto flex shrink-0 items-center gap-1 md:ml-0">
           <button
             aria-label="Sidekick"
-            className="rounded-md p-2.5 hover:bg-topbar-foreground/10"
+            className="shrink-0 rounded-md p-2 hover:bg-topbar-foreground/10 sm:p-2.5"
           >
             <img src={sidekickTop.url} alt="" className="h-[30px] w-[30px] object-contain" />
           </button>
           <button
             aria-label="Notifications"
             onClick={() => setPanelOpen(true)}
-            className="rounded-md p-2.5 hover:bg-topbar-foreground/10"
+            className="shrink-0 rounded-md p-2 hover:bg-topbar-foreground/10 sm:p-2.5"
           >
             <Bell className="h-[22px] w-[22px]" />
           </button>
 
           {/* Account circle — hover opens the account menu */}
-          <div className="group relative ml-1 flex items-center gap-2.5">
+          <div className="group relative ml-1 flex min-w-0 items-center gap-2.5">
             <button
               aria-label="Account menu"
               style={badgeStyle}
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-sm font-bold ring-topbar-foreground/30 transition-shadow hover:ring-2"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-bold ring-topbar-foreground/30 transition-shadow hover:ring-2"
             >
               {custom.initials}
             </button>
-            <span className="hidden text-sm font-semibold sm:block">{custom.profileName}</span>
+            <span className="hidden max-w-24 truncate text-sm font-semibold sm:block lg:max-w-40" title={custom.profileName}>{custom.profileName}</span>
 
-            <div className="invisible absolute right-0 top-full z-50 mt-2 w-72 translate-y-1 rounded-xl border border-border bg-popover text-popover-foreground opacity-0 shadow-xl transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+            <div className="account-dropdown invisible absolute right-0 top-full z-50 mt-2 w-72 max-w-[calc(100vw-1rem)] translate-y-1 overflow-y-auto rounded-xl border border-border bg-popover text-popover-foreground opacity-0 shadow-xl transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
               <div className="flex items-center gap-3 border-b border-border px-4 py-3">
                 <span style={roundStyle} className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold">
                   {custom.roundInitial}

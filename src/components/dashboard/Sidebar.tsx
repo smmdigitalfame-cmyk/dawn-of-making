@@ -127,10 +127,10 @@ export function Sidebar() {
             className="fade-in-bg absolute inset-0 bg-foreground/40"
             onClick={() => setSidebarOpen(false)}
           />
-          <aside className="drawer-in absolute inset-y-0 left-0 w-[260px] bg-sidebar shadow-xl">
-            <div className="flex items-center justify-between px-3 py-2">
-              <span className="flex items-center gap-2 text-sm font-semibold">
-                <img src={custom.logo ?? bagLogo.url} alt="Store logo" className="h-6 w-auto" /> {custom.storeName}
+          <aside className="mobile-sidebar drawer-in absolute inset-y-0 left-0 flex w-[260px] max-w-[calc(100vw-2rem)] flex-col bg-sidebar shadow-xl">
+            <div className="grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-3 py-2">
+              <span className="flex min-w-0 items-center gap-2 text-sm font-semibold">
+                <img src={custom.logo ?? bagLogo.url} alt="Store logo" className="h-6 w-auto max-w-6 shrink-0 object-contain" /> <span className="truncate">{custom.storeName}</span>
               </span>
               <button
                 aria-label="Close menu"

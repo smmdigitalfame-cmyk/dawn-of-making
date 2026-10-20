@@ -53,12 +53,12 @@ function LoginPage() {
   }
 
   return (
-    <div className="login-bg relative flex min-h-screen items-center justify-center overflow-hidden px-4">
+    <div className="login-bg relative flex min-h-dvh items-center justify-center overflow-hidden px-4 py-8">
       <div className="login-glow login-glow-a" />
       <div className="login-glow login-glow-b" />
 
       <div className="editor-in relative w-full max-w-[400px]">
-        <div className="mb-8 flex items-center justify-center gap-3 text-topbar-foreground">
+        <div className="mb-8 flex flex-wrap items-center justify-center gap-3 text-topbar-foreground">
           <img src={bagLogo.url} alt="" className="h-9 w-auto" />
           <span className="text-[26px] font-extrabold tracking-[-0.02em]">Shopify</span>
           <span className="rounded-full border border-topbar-foreground/25 px-3 py-[3px] text-[13px] font-bold italic text-topbar-foreground/70">
@@ -68,7 +68,7 @@ function LoginPage() {
 
         <form
           onSubmit={onSubmit}
-          className="rounded-2xl border border-topbar-foreground/10 bg-card/95 p-8 shadow-2xl backdrop-blur"
+          className="rounded-2xl border border-topbar-foreground/10 bg-card/95 p-6 shadow-2xl backdrop-blur sm:p-8"
         >
           <h1 className="text-xl font-semibold text-foreground">Welcome back</h1>
           <p className="mt-1 text-sm text-muted-foreground">Sign in to continue to your dashboard.</p>

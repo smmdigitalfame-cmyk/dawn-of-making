@@ -109,7 +109,7 @@ export function CustomizeDialog() {
   };
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    <div className="dashboard-editor fixed inset-0 z-[60] flex items-center justify-center p-4">
       <button
         aria-label="Close editor"
         className="fade-in-bg absolute inset-0 bg-foreground/60"
@@ -118,7 +118,7 @@ export function CustomizeDialog() {
       <div
         role="dialog"
         aria-label="Customize dashboard"
-        className="editor-in relative flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-editor-border bg-editor text-editor-foreground shadow-2xl"
+        className="editor-in relative flex max-h-[min(92dvh,calc(100dvh-2rem))] w-full min-w-0 max-w-2xl flex-col overflow-hidden rounded-2xl border border-editor-border bg-editor text-editor-foreground shadow-2xl"
       >
         <button
           aria-label="Close"
@@ -128,7 +128,7 @@ export function CustomizeDialog() {
           <X className="h-4 w-4" />
         </button>
 
-        <div className="flex flex-col gap-5 overflow-y-auto px-4 py-6 sm:px-6">
+        <div className="flex min-h-0 flex-col gap-5 overflow-y-auto overscroll-contain px-4 py-6 sm:px-6">
           <h2 className="text-center text-3xl font-black tracking-tight">DASHORA</h2>
 
           <Field label="Language">
@@ -160,7 +160,7 @@ export function CustomizeDialog() {
             </div>
 
             <Field label="Store logo">
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 <button
                   type="button"
                   onClick={() => fileRef.current?.click()}
@@ -189,7 +189,7 @@ export function CustomizeDialog() {
               >
                 {custom.initials}
               </span>
-              <span className="font-semibold text-editor-foreground">{custom.storeName}</span>
+              <span className="min-w-0 break-words font-semibold text-editor-foreground">{custom.storeName}</span>
             </p>
 
             <div className="grid gap-4 sm:grid-cols-2">
@@ -240,7 +240,7 @@ export function CustomizeDialog() {
             <NumberInput value={custom.payout} onChange={(v) => set("payout", v ?? 0)} />
           </Field>
 
-          <fieldset className="rounded-xl border border-editor-border/60 p-4">
+          <fieldset className="min-w-0 rounded-xl border border-editor-border/60 p-4">
             <legend className="px-2 text-sm font-semibold">Chart values — current period</legend>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {salesBase.points.map((p, i) => (
