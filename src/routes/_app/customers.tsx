@@ -5,10 +5,10 @@ import { EmptyState } from "@/components/dashboard/EmptyState";
 export const Route = createFileRoute("/_app/customers")({
   head: () => ({
     meta: [
-      { title: "Dashora — Customers" },
-      { name: "description", content: "Build lasting customer relationships with Dashora." },
-      { property: "og:title", content: "Dashora — Customers" },
-      { property: "og:description", content: "Build lasting customer relationships with Dashora." },
+      { title: "Shopify — Customers" },
+      { name: "description", content: "Build lasting customer relationships with Shopify." },
+      { property: "og:title", content: "Shopify — Customers" },
+      { property: "og:description", content: "Build lasting customer relationships with Shopify." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

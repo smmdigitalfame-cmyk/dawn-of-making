@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "Dawn of Making",
-  "short_name": "Dawn of Making",
-  "description": "Access your existing Dawn of Making dashboard.",
+  "name": "Shopify",
+  "short_name": "Shopify",
+  "description": "Access your existing Shopify dashboard.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

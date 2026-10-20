@@ -13,13 +13,13 @@ import { useDashboard } from "@/lib/dashboard-store";
 export const Route = createFileRoute("/_app/home")({
   head: () => ({
     meta: [
-      { title: "Dashora — Home" },
+      { title: "Shopify — Home" },
       {
         name: "description",
         content:
-          "Dashora store dashboard: live sales, visits, orders and conversion with animated charts, date ranges and multi-currency views.",
+          "Shopify store dashboard: live sales, visits, orders and conversion with animated charts, date ranges and multi-currency views.",
       },
-      { property: "og:title", content: "Dashora — Home" },
+      { property: "og:title", content: "Shopify — Home" },
       {
         property: "og:description",
         content: "Live sales dashboard with animated charts and multi-currency support.",

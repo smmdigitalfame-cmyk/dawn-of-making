@@ -6,10 +6,10 @@ import { useDashboard } from "@/lib/dashboard-store";
 export const Route = createFileRoute("/_app/settings")({
   head: () => ({
     meta: [
-      { title: "Dashora — Settings" },
-      { name: "description", content: "Store and notification settings for Dashora." },
-      { property: "og:title", content: "Dashora — Settings" },
-      { property: "og:description", content: "Store and notification settings for Dashora." },
+      { title: "Shopify — Settings" },
+      { name: "description", content: "Store and notification settings for Shopify." },
+      { property: "og:title", content: "Shopify — Settings" },
+      { property: "og:description", content: "Store and notification settings for Shopify." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

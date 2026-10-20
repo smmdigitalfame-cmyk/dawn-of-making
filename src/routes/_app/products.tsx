@@ -5,10 +5,10 @@ import { EmptyState } from "@/components/dashboard/EmptyState";
 export const Route = createFileRoute("/_app/products")({
   head: () => ({
     meta: [
-      { title: "Dashora — Products" },
-      { name: "description", content: "Manage your Dashora product catalog." },
-      { property: "og:title", content: "Dashora — Products" },
-      { property: "og:description", content: "Manage your Dashora product catalog." },
+      { title: "Shopify — Products" },
+      { name: "description", content: "Manage your Shopify product catalog." },
+      { property: "og:title", content: "Shopify — Products" },
+      { property: "og:description", content: "Manage your Shopify product catalog." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

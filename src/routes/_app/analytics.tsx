@@ -13,9 +13,9 @@ import { useDashboard } from "@/lib/dashboard-store";
 export const Route = createFileRoute("/_app/analytics")({
   head: () => ({
     meta: [
-      { title: "Dashora — Analytics" },
+      { title: "Shopify — Analytics" },
       { name: "description", content: "Reports and insights about your store performance." },
-      { property: "og:title", content: "Dashora — Analytics" },
+      { property: "og:title", content: "Shopify — Analytics" },
       { property: "og:description", content: "Reports and insights about your store performance." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

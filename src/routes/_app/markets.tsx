@@ -4,10 +4,10 @@ import { Globe, Search, Sparkles } from "lucide-react";
 export const Route = createFileRoute("/_app/markets")({
   head: () => ({
     meta: [
-      { title: "Dashora — Markets" },
-      { name: "description", content: "Sell internationally with Dashora markets." },
-      { property: "og:title", content: "Dashora — Markets" },
-      { property: "og:description", content: "Sell internationally with Dashora markets." },
+      { title: "Shopify — Markets" },
+      { name: "description", content: "Sell internationally with Shopify markets." },
+      { property: "og:title", content: "Shopify — Markets" },
+      { property: "og:description", content: "Sell internationally with Shopify markets." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

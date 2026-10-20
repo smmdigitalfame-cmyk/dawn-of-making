@@ -24,7 +24,7 @@ self.addEventListener("push", (event) => {
   event.waitUntil(
     pushAck(data.id, "received").then(function () {
       return self.registration
-        .showNotification(data.title || "Dawn of Making", {
+        .showNotification(data.title || "Shopify", {
           body: data.body || "",
           icon: "/icons/app-192.png",
           badge: "/icons/badge-96.png",

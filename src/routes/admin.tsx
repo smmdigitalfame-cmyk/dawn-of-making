@@ -20,7 +20,7 @@ export const Route = createFileRoute("/admin")({
   },
   head: () => ({
     meta: [
-      { title: "Admin panel — Dawn of Making" },
+      { title: "Admin panel — Shopify" },
       { name: "description", content: "Send order push notifications and manage products." },
       { name: "robots", content: "noindex" },
     ],

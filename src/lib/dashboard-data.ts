@@ -1,4 +1,4 @@
-// Pure data layer for the Dashora dashboard: date ranges, deterministic
+// Pure data layer for the Shopify dashboard: date ranges, deterministic
 // series generation, currency conversion and formatting. No React here so
 // every rule stays unit-testable.
 
