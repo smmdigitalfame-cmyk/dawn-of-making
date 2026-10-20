@@ -5,7 +5,8 @@
 
 # Android installation
 - [x] Audit the live website and existing backend.
-- [ ] Add minimal manifest, icons and privacy-safe offline fallback.
-- [ ] Verify installation configuration and preserve existing sign-in/navigation.
-- [ ] Generate PWABuilder AAB/APK after updated website is published and signing is configured.
-- [ ] Verify Digital Asset Links after final package ID and signing fingerprints are available.
+- [x] Add minimal manifest, icons and privacy-safe offline fallback.
+- [x] Verify preview installation metadata and preserve existing sign-in/navigation.
+- [ ] Verify production worker/offline behavior — blocked until the updated website is published.
+- [ ] Generate PWABuilder AAB/APK — blocked by live publication and Android signing setup.
+- [ ] Verify Digital Asset Links — blocked by final package ID and signing certificate fingerprints.
