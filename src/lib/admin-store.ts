@@ -87,3 +87,20 @@ export function orderPushText(
 export function newId(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }
+
+export type PushScheduleMode = "now" | "timed" | "random";
+
+/** Wait (ms) before each notification. "timed" spreads `count` evenly across `minutes`; "random" waits 1–4 seconds each. */
+export function pushScheduleDelays(
+  count: number,
+  mode: PushScheduleMode,
+  minutes: number,
+  rand: () => number = Math.random,
+): number[] {
+  const n = Math.max(1, Math.floor(count));
+  return Array.from({ length: n }, (_, i) => {
+    if (i === 0 || mode === "now") return 0;
+    if (mode === "random") return (1 + Math.floor(rand() * 4)) * 1000;
+    return Math.round((Math.max(0, minutes) * 60000) / n);
+  });
+}
