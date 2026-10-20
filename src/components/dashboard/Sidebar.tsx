@@ -1,5 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { ChevronDown, ShieldCheck, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getAdminSession } from "@/lib/admin.functions";
 import { cn } from "@/lib/utils";
 import { useDashboard } from "@/lib/dashboard-store";
 import bagLogo from "@/assets/bag-logo.png.asset.json";
@@ -83,6 +85,19 @@ function NavLink({
 
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const { t } = useDashboard();
+  // The Admin panel entry is visible only to someone who signed in via the admin panel.
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    getAdminSession()
+      .then((s) => {
+        if (!cancelled) setIsAdmin(s.authenticated);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
   return (
     <div className="flex h-full flex-col gap-1 overflow-y-auto px-3 py-3">
       {MAIN_ITEMS.map((item) => (
@@ -105,13 +120,15 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 
       <div className="mt-auto pt-4">
         <NavLink to="/settings" label="Settings" icon={iconSettings.url} onNavigate={onNavigate} />
-        <a
-          href="/admin"
-          className="mt-1 flex items-center gap-2.5 rounded-lg px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
-        >
-          <ShieldCheck className="h-[22px] w-[22px]" />
-          Admin panel
-        </a>
+        {isAdmin && (
+          <a
+            href="/admin"
+            className="mt-1 flex items-center gap-2.5 rounded-lg px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
+          >
+            <ShieldCheck className="h-[22px] w-[22px]" />
+            Admin panel
+          </a>
+        )}
       </div>
     </div>
   );
