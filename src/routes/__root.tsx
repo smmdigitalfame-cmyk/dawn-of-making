@@ -78,20 +78,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: "Dashora — Store Dashboard" },
+      { title: "Shopify — Store Dashboard" },
       {
         name: "description",
         content:
-          "Dashora store admin: live sales dashboard, orders, customers, markets and multi-currency notifications.",
+          "Shopify store admin: live sales dashboard, orders, customers, markets and multi-currency notifications.",
       },
-      { name: "author", content: "Dashora" },
+      { name: "author", content: "Shopify" },
       { name: "theme-color", content: "#101318" },
-      { name: "apple-mobile-web-app-title", content: "Dawn of Making" },
-      { property: "og:title", content: "Dashora — Store Dashboard" },
+      { name: "apple-mobile-web-app-title", content: "Shopify" },
+      { property: "og:title", content: "Shopify — Store Dashboard" },
       {
         property: "og:description",
         content:
-          "Dashora store admin: live sales dashboard, orders, customers, markets and multi-currency notifications.",
+          "Shopify store admin: live sales dashboard, orders, customers, markets and multi-currency notifications.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

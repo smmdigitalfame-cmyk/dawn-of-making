@@ -5,9 +5,9 @@ import { EmptyState } from "@/components/dashboard/EmptyState";
 export const Route = createFileRoute("/_app/metaobjects")({
   head: () => ({
     meta: [
-      { title: "Dashora — Metaobjects" },
+      { title: "Shopify — Metaobjects" },
       { name: "description", content: "Structure custom data with metaobjects." },
-      { property: "og:title", content: "Dashora — Metaobjects" },
+      { property: "og:title", content: "Shopify — Metaobjects" },
       { property: "og:description", content: "Structure custom data with metaobjects." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

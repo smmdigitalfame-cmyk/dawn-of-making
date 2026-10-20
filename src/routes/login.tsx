@@ -11,10 +11,10 @@ export const Route = createFileRoute("/login")({
   },
   head: () => ({
     meta: [
-      { title: "Sign in — Dashora" },
-      { name: "description", content: "Sign in to your Dashora store dashboard." },
-      { property: "og:title", content: "Sign in — Dashora" },
-      { property: "og:description", content: "Sign in to your Dashora store dashboard." },
+      { title: "Sign in — Shopify" },
+      { name: "description", content: "Sign in to your Shopify store dashboard." },
+      { property: "og:title", content: "Sign in — Shopify" },
+      { property: "og:description", content: "Sign in to your Shopify store dashboard." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

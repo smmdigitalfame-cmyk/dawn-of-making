@@ -5,9 +5,9 @@ import { EmptyState } from "@/components/dashboard/EmptyState";
 export const Route = createFileRoute("/_app/content")({
   head: () => ({
     meta: [
-      { title: "Dashora — Content" },
+      { title: "Shopify — Content" },
       { name: "description", content: "Manage files, pages and blog posts." },
-      { property: "og:title", content: "Dashora — Content" },
+      { property: "og:title", content: "Shopify — Content" },
       { property: "og:description", content: "Manage files, pages and blog posts." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

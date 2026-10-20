@@ -53,7 +53,7 @@ export interface CustomSettings {
 export const DEFAULT_CUSTOM: CustomSettings = {
   language: "en",
   storeName: "Shopify",
-  profileName: "Dashora",
+  profileName: "Shopify",
   initials: "AR",
   logo: null,
   badgeColor: "#38b2c8",
@@ -106,7 +106,7 @@ const DashboardContext = createContext<DashboardState | null>(null);
 const STORAGE_KEY = "dashora-dashboard-v1";
 
 const DEFAULT_NOTIF: NotificationSettings = {
-  storeName: "Dashora",
+  storeName: "Shopify",
   intervalSec: 2,
   randomInterval: false,
   perInterval: 1,

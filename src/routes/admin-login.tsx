@@ -7,8 +7,8 @@ export const Route = createFileRoute("/admin-login")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Admin sign in — Dawn of Making" },
-      { name: "description", content: "Sign in to the Dawn of Making admin panel." },
+      { title: "Admin sign in — Shopify" },
+      { name: "description", content: "Sign in to the Shopify admin panel." },
       { name: "robots", content: "noindex" },
     ],
   }),

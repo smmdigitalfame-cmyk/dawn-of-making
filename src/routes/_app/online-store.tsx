@@ -5,9 +5,9 @@ import { EmptyState } from "@/components/dashboard/EmptyState";
 export const Route = createFileRoute("/_app/online-store")({
   head: () => ({
     meta: [
-      { title: "Dashora — Online Store" },
+      { title: "Shopify — Online Store" },
       { name: "description", content: "Customize your online store theme and pages." },
-      { property: "og:title", content: "Dashora — Online Store" },
+      { property: "og:title", content: "Shopify — Online Store" },
       { property: "og:description", content: "Customize your online store theme and pages." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
