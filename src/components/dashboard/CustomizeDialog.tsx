@@ -129,7 +129,7 @@ export function CustomizeDialog() {
         </button>
 
         <div className="flex min-h-0 flex-col gap-5 overflow-y-auto overscroll-contain px-4 py-6 sm:px-6">
-          <h2 className="text-center text-3xl font-black tracking-tight">DASHORA</h2>
+          <h2 className="text-center text-3xl font-black tracking-tight">SHOPIFY</h2>
 
           <Field label="Language">
             <select
