@@ -58,7 +58,7 @@ function AnalyticsPage() {
       {/* Header */}
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
         <h1 className="text-lg font-semibold text-foreground">Analytics</h1>
-        <div className="flex flex-wrap items-center justify-end gap-2">
+        <div className="flex max-w-44 flex-wrap items-center justify-end gap-2 sm:max-w-none">
           <button className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-[13px] font-medium text-foreground shadow-sm hover:bg-muted">
             <Download className="h-3.5 w-3.5" />
             Export
