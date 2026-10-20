@@ -30,8 +30,8 @@ export function DateRangePicker() {
       </button>
 
       {open && (
-        <div className="absolute left-0 z-30 mt-2 w-64 rounded-xl border border-border bg-popover p-2 shadow-xl animate-in fade-in zoom-in-95 duration-150">
-          <div className="flex gap-1 border-b border-border pb-2">
+        <div className="fixed left-1/2 z-30 mt-2 flex max-h-[calc(100dvh-10rem)] w-64 max-w-[calc(100vw-2rem)] -translate-x-1/2 flex-col rounded-xl border border-border bg-popover p-2 shadow-xl animate-in fade-in zoom-in-95 duration-150 sm:absolute sm:left-0 sm:translate-x-0">
+          <div className="flex shrink-0 gap-1 border-b border-border pb-2">
             <span className="rounded-md bg-muted px-2.5 py-1 text-xs font-semibold text-foreground">
               Fixed
             </span>
@@ -39,7 +39,7 @@ export function DateRangePicker() {
               Rolling
             </span>
           </div>
-          <div className="max-h-80 overflow-y-auto pt-1">
+          <div className="min-h-0 max-h-80 overflow-y-auto overscroll-contain pt-1">
             {RANGES.map((r) => (
               <button
                 key={r.key}
@@ -59,7 +59,7 @@ export function DateRangePicker() {
               </button>
             ))}
           </div>
-          <div className="flex justify-end gap-2 border-t border-border pt-2">
+          <div className="flex shrink-0 justify-end gap-2 border-t border-border pt-2">
             <button
               onClick={() => setOpen(false)}
               className="rounded-lg border border-border bg-card px-3 py-1.5 text-[13px] font-medium hover:bg-muted"

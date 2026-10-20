@@ -55,8 +55,8 @@ export function NotificationPanel({
         className="absolute inset-0 bg-foreground/40"
         onClick={onClose}
       />
-      <div className="absolute right-0 top-0 flex h-full w-full max-w-md flex-col overflow-y-auto bg-card shadow-2xl">
-        <div className="flex items-center justify-between border-b border-border px-5 py-4">
+      <div className="notification-panel absolute right-0 top-0 flex h-full w-full max-w-md flex-col overflow-y-auto overscroll-contain bg-card shadow-2xl">
+        <div className="grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 border-b border-border px-5 py-4">
           <h2 className="text-base font-semibold text-foreground">
             Notification settings
           </h2>
@@ -69,7 +69,7 @@ export function NotificationPanel({
           </button>
         </div>
 
-        <div className="flex flex-1 flex-col gap-4 px-5 py-5">
+        <div className="flex min-w-0 flex-1 flex-col gap-4 px-5 py-5">
           <Field label="Store name">
             <input
               className={inputClass}

@@ -18,7 +18,7 @@ export const Route = createFileRoute("/_app/markets")({
 function MarketsPage() {
   return (
     <div className="mx-auto max-w-4xl">
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-4 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
         <h1 className="text-xl font-semibold text-foreground">Markets</h1>
         <div className="flex items-center gap-2">
           <button className="rounded-lg border border-border bg-muted px-3 py-1.5 text-[13px] font-medium text-foreground hover:bg-muted/70">
@@ -31,17 +31,17 @@ function MarketsPage() {
       </div>
 
       <div className="rounded-xl border border-border bg-card shadow-sm">
-        <div className="flex items-center gap-2 border-b border-border px-4 py-3">
-          <Globe className="h-4 w-4 text-muted-foreground" />
+        <div className="flex flex-wrap items-center gap-2 border-b border-border px-4 py-3">
+          <Globe className="h-4 w-4 shrink-0 text-muted-foreground" />
           <span className="text-[13px] font-medium text-foreground">Store default</span>
-          <Search className="ml-2 h-4 w-4 text-muted-foreground" />
+          <Search className="ml-2 h-4 w-4 shrink-0 text-muted-foreground" />
           <input
             placeholder="Search in all markets"
-            className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+            className="w-full min-w-0 basis-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none sm:basis-0 sm:flex-1"
           />
         </div>
 
-        <div className="flex items-center gap-3 border-b border-border px-4 py-3">
+        <div className="flex flex-wrap items-center gap-3 border-b border-border px-4 py-3">
           <Globe className="h-4 w-4 text-muted-foreground" />
           <span className="text-sm font-medium text-foreground">Morocco</span>
           <span className="rounded-full bg-success/15 px-2.5 py-0.5 text-xs font-semibold text-success">

@@ -46,7 +46,7 @@ function HomePage() {
           <span className="live-dot relative inline-flex h-3 w-3 rounded-full" />
           {visitors} {t("visitors")}
         </span>
-        <span className="ml-auto rounded-lg border border-border bg-card px-3 py-2 text-[13px] text-foreground shadow-sm">
+        <span className="ml-auto max-w-full break-words rounded-lg border border-border bg-card px-3 py-2 text-[13px] text-foreground shadow-sm">
           {t("Next payout")}:{" "}
           <strong className="font-semibold">{formatMoney(payoutINR, currency)}</strong>
         </span>
@@ -62,7 +62,7 @@ function HomePage() {
         <div className="px-2 pb-2">
           {!chartCollapsed && <SalesChart />}
         </div>
-        <div className="flex items-center justify-center gap-6 border-t border-border py-2.5 text-xs text-muted-foreground">
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-border px-2 py-2.5 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-teal" />
             {legend.current}

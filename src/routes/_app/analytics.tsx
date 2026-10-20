@@ -56,9 +56,9 @@ function AnalyticsPage() {
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-5">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
         <h1 className="text-lg font-semibold text-foreground">Analytics</h1>
-        <div className="flex items-center gap-2">
+        <div className="flex max-w-44 flex-wrap items-center justify-end gap-2 sm:max-w-none">
           <button className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-[13px] font-medium text-foreground shadow-sm hover:bg-muted">
             <Download className="h-3.5 w-3.5" />
             Export
@@ -84,19 +84,19 @@ function AnalyticsPage() {
         {cards.map((c) => (
           <div
             key={c.label}
-            className="flex min-h-[110px] flex-col justify-between rounded-xl border border-border bg-card p-4 shadow-sm"
+            className="flex min-h-[110px] min-w-0 flex-col justify-between rounded-xl border border-border bg-card p-4 shadow-sm"
           >
             <p className="text-[13px] font-medium text-foreground">{c.label}</p>
-            <p className="text-xl font-semibold text-foreground">{c.value}</p>
+            <p className="break-words text-xl font-semibold text-foreground">{c.value}</p>
           </div>
         ))}
       </div>
 
       {/* Chart + breakdown */}
-      <div className="grid gap-4 lg:grid-cols-[1fr_280px]">
-        <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
+        <div className="min-w-0 rounded-xl border border-border bg-card p-4 shadow-sm">
           <p className="text-[13px] font-medium text-foreground">Total sales over time</p>
-          <p className="text-xl font-semibold text-foreground">
+          <p className="break-words text-xl font-semibold text-foreground">
             {formatMoney(grossSales, currency)}
           </p>
           <div className="mt-2">
@@ -110,12 +110,12 @@ function AnalyticsPage() {
             {breakdown.map((row) => (
               <li
                 key={row.label}
-                className="flex items-center justify-between rounded-md px-2 py-2 odd:bg-muted/60"
+                className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-center gap-2 rounded-md px-2 py-2 odd:bg-muted/60"
               >
                 <span className="text-[13px] font-medium text-teal underline decoration-teal/40 underline-offset-2">
                   {row.label}
                 </span>
-                <span className="text-[13px] font-semibold text-foreground">
+                <span className="break-words text-right text-[13px] font-semibold text-foreground">
                   {row.value}
                 </span>
               </li>

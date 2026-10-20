@@ -21,9 +21,9 @@ export function EmptyState({
 }) {
   return (
     <div className="mx-auto max-w-4xl">
-      <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-foreground">{title}</h1>
-        <div className="flex items-center gap-2">
+      <div className="mb-4 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
+        <h1 className="min-w-0 break-words text-xl font-semibold text-foreground">{title}</h1>
+        <div className="flex max-w-44 flex-wrap items-center justify-end gap-2 sm:max-w-none">
           <button className="rounded-lg border border-border bg-muted px-3 py-1.5 text-[13px] font-medium text-foreground hover:bg-muted/70">
             Export
           </button>
@@ -37,10 +37,10 @@ export function EmptyState({
 
       <div className="rounded-xl border border-border bg-card shadow-sm">
         <div className="flex items-center gap-2 border-b border-border px-4 py-3">
-          <Search className="h-4 w-4 text-muted-foreground" />
+          <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
           <input
             placeholder={searchPlaceholder}
-            className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+            className="w-full min-w-0 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
         </div>
         <div className="flex flex-col items-center gap-2 px-6 py-20 text-center">

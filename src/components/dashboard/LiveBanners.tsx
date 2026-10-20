@@ -6,7 +6,7 @@ export function LiveBanners() {
   if (banners.length === 0) return null;
 
   return (
-    <div className="pointer-events-none fixed right-4 top-16 z-[60] flex w-80 flex-col gap-2">
+    <div className="live-banners pointer-events-none fixed right-4 top-16 z-[60] flex max-h-[calc(100dvh-5rem)] w-80 max-w-[calc(100vw-2rem)] flex-col gap-2 overflow-y-auto">
       {banners.map((b) => (
         <div
           key={b.id}

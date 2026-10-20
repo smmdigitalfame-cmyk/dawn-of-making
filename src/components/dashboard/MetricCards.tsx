@@ -46,14 +46,14 @@ export function MetricCards({ collapsed = false, onToggle }: { collapsed?: boole
             key={s.key}
             onClick={() => setMetric(s.key)}
             className={cn(
-              "flex flex-col gap-1.5 rounded-lg px-3 py-2.5 text-left transition-colors",
+              "flex min-w-0 flex-col gap-1.5 rounded-lg px-3 py-2.5 text-left transition-colors",
               active ? "bg-muted" : "hover:bg-muted/50",
             )}
           >
-            <span className="flex w-full items-center justify-between gap-2">
+            <span className="grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
               <span
                 className={cn(
-                  "text-[13px] font-semibold underline decoration-dotted decoration-muted-foreground/60 underline-offset-[5px]",
+                  "min-w-0 break-words text-[13px] font-semibold underline decoration-dotted decoration-muted-foreground/60 underline-offset-[5px]",
                   active ? "text-foreground" : "text-muted-foreground",
                 )}
               >
@@ -80,10 +80,10 @@ export function MetricCards({ collapsed = false, onToggle }: { collapsed?: boole
                 </span>
               )}
             </span>
-            <span className="flex w-full items-center justify-between gap-2">
+            <span className="flex w-full min-w-0 flex-wrap items-center justify-between gap-x-2 gap-y-1.5">
               <span
                 className={cn(
-                  "whitespace-nowrap text-[15px] font-semibold",
+                  "min-w-0 max-w-full break-words text-[15px] font-semibold",
                   active ? "text-foreground" : "text-muted-foreground",
                 )}
               >
@@ -91,7 +91,7 @@ export function MetricCards({ collapsed = false, onToggle }: { collapsed?: boole
               </span>
               <span
                 className={cn(
-                  "flex items-center gap-0.5 text-[11px] font-semibold",
+                  "flex shrink-0 items-center gap-0.5 text-[11px] font-semibold",
                   positive ? "text-success" : "text-foreground/80",
                 )}
               >

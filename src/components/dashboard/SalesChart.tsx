@@ -12,7 +12,6 @@ import {
   METRICS,
   formatAxisTick,
   formatMetricTotal,
-  getRange,
   type SeriesPoint,
 } from "@/lib/dashboard-data";
 import { useDashboard } from "@/lib/dashboard-store";
@@ -64,12 +63,9 @@ function ChartTooltip({
 export function SalesChart() {
   const { metric, range, currency, seriesFor, custom } = useDashboard();
   const series = useMemo(() => seriesFor(metric), [seriesFor, metric, custom]);
-  const def = getRange(range);
-
-  const tickInterval = Math.max(0, Math.floor(def.points / 12) - 1);
 
   return (
-    <div className="h-[260px] w-full">
+    <div className="h-[260px] w-full min-w-0">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           key={`${metric}-${range}-${currency}`}
@@ -81,7 +77,8 @@ export function SalesChart() {
             dataKey="label"
             tickLine={false}
             axisLine={false}
-            interval={tickInterval}
+            interval="preserveStartEnd"
+            minTickGap={24}
             tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
           />
           <YAxis
