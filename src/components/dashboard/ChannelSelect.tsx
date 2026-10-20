@@ -30,7 +30,7 @@ export function ChannelSelect() {
       </button>
 
       {open && (
-        <div className="fixed left-1/2 z-30 mt-2 max-h-[calc(100dvh-7rem)] w-52 max-w-[calc(100vw-2rem)] -translate-x-1/2 overflow-y-auto overscroll-contain rounded-xl border border-border bg-popover p-1.5 shadow-xl animate-in fade-in zoom-in-95 duration-150 sm:absolute sm:left-0 sm:translate-x-0">
+        <div className="fixed left-1/2 z-30 mt-2 max-h-[calc(100dvh-10rem)] w-52 max-w-[calc(100vw-2rem)] -translate-x-1/2 overflow-y-auto overscroll-contain rounded-xl border border-border bg-popover p-1.5 shadow-xl animate-in fade-in zoom-in-95 duration-150 sm:absolute sm:left-0 sm:translate-x-0">
           {CHANNELS.map((c) => (
             <button
               key={c}
