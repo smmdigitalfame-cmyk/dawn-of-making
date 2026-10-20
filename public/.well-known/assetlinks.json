@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.lovable.dawn_of_making.twa",
+      "sha256_cert_fingerprints": [
+        "0F:42:D7:B7:87:B8:CA:40:5C:E9:AD:29:87:F4:39:07:A7:A9:22:B5:13:20:E3:B7:AD:00:26:9E:59:BA:1C:A2"
+      ]
+    }
+  }
+]
