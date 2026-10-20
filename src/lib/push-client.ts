@@ -2,7 +2,7 @@ import { getPushPublicKey, savePushSubscription } from "./push.functions";
 
 export type PushStatus = "registered" | "unsupported" | "open-in-new-tab" | "denied" | "no-worker";
 
-function keyToBytes(s: string) {
+function keyToBytes(s: string): Uint8Array<ArrayBuffer> {
   const b = atob(s.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((s.length + 3) % 4));
   return Uint8Array.from(b, (c) => c.charCodeAt(0));
 }

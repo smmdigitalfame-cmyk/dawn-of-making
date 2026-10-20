@@ -1,9 +1,9 @@
 // Standards Web Push (RFC 8291 aes128gcm + RFC 8292 VAPID) using only WebCrypto,
 // so it runs on the edge worker without Node-only packages.
 
-const enc = new TextEncoder();
+const enc = { encode: (s: string) => new Uint8Array(new TextEncoder().encode(s)) as Uint8Array<ArrayBuffer> };
 
-function b64urlToBytes(s: string) {
+function b64urlToBytes(s: string): B {
   const b = atob(s.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((s.length + 3) % 4));
   return Uint8Array.from(b, (c) => c.charCodeAt(0));
 }
@@ -12,13 +12,14 @@ function bytesToB64url(bytes: Uint8Array) {
   for (const b of bytes) s += String.fromCharCode(b);
   return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
-function concat(...parts: Uint8Array[]) {
+function concat(...parts: Uint8Array[]): B {
   const out = new Uint8Array(parts.reduce((n, p) => n + p.length, 0));
   let o = 0;
   for (const p of parts) { out.set(p, o); o += p.length; }
   return out;
 }
 
+type B = Uint8Array<ArrayBuffer>;
 type Jwk = { kty: string; crv: string; x: string; y: string; d: string };
 
 export function vapidKeys() {
@@ -29,7 +30,7 @@ export function vapidKeys() {
   return { jwk, publicKey };
 }
 
-async function hkdf(salt: Uint8Array, ikm: Uint8Array, info: Uint8Array, bytes: number) {
+async function hkdf(salt: B, ikm: B, info: B, bytes: number): Promise<B> {
   const key = await crypto.subtle.importKey("raw", ikm, "HKDF", false, ["deriveBits"]);
   return new Uint8Array(await crypto.subtle.deriveBits({ name: "HKDF", hash: "SHA-256", salt, info }, key, bytes * 8));
 }
