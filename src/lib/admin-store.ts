@@ -11,6 +11,7 @@ export interface AdminProduct {
 
 export interface AdminSale {
   id: string;
+  orderNumber: number;
   productName: string;
   items: number;
   amountUsd: number;
@@ -22,6 +23,7 @@ export interface AdminData {
   storeName: string;
   products: AdminProduct[];
   sales: AdminSale[];
+  nextOrderNumber: number;
 }
 
 export const ADMIN_CHANNELS = ["Online Store", "Facebook & Instagram", "Point of Sale"] as const;
@@ -36,6 +38,7 @@ const DEFAULT_DATA: AdminData = {
     { id: "p5", name: "Ceramic Mug", price: 20.5 },
   ],
   sales: [],
+  nextOrderNumber: 614,
 };
 
 export function loadAdminData(): AdminData {
