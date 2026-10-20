@@ -5,7 +5,7 @@
 
 # Android installation
 - [x] Update installed app icons from the existing Shopify bag artwork.
-- [ ] Enable VAPID phone background push without Firebase — blocked: existing Laravel server connection is not available in this project; preserve the existing database and account system. Need its public URL/integration details before subscription storage and delivery can be connected.
+- [ ] Phone push without Firebase: built on Lovable Cloud — blocked only on publish + test on a real Android phone
 - [x] Audit the live website and existing backend.
 - [x] Add minimal manifest, icons and privacy-safe offline fallback.
 - [x] Verify preview installation metadata and preserve existing sign-in/navigation.
