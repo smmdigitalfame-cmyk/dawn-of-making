@@ -29,6 +29,7 @@ import { Route as AppOrdersRouteImport } from './routes/_app/orders'
 import { Route as AppPosRouteImport } from './routes/_app/pos'
 import { Route as AppProductsRouteImport } from './routes/_app/products'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
+import { Route as ApiPublicSendTestPushRouteImport } from './routes/api/public/send-test-push'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -129,6 +130,11 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
+const ApiPublicSendTestPushRoute = ApiPublicSendTestPushRouteImport.update({
+  id: '/api/public/send-test-push',
+  path: '/api/public/send-test-push',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -150,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/pos': typeof AppPosRoute
   '/products': typeof AppProductsRoute
   '/settings': typeof AppSettingsRoute
+  '/api/public/send-test-push': typeof ApiPublicSendTestPushRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -171,6 +178,7 @@ export interface FileRoutesByTo {
   '/pos': typeof AppPosRoute
   '/products': typeof AppProductsRoute
   '/settings': typeof AppSettingsRoute
+  '/api/public/send-test-push': typeof ApiPublicSendTestPushRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -194,6 +202,7 @@ export interface FileRoutesById {
   '/_app/pos': typeof AppPosRoute
   '/_app/products': typeof AppProductsRoute
   '/_app/settings': typeof AppSettingsRoute
+  '/api/public/send-test-push': typeof ApiPublicSendTestPushRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -217,6 +226,7 @@ export interface FileRouteTypes {
     | '/pos'
     | '/products'
     | '/settings'
+    | '/api/public/send-test-push'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -238,6 +248,7 @@ export interface FileRouteTypes {
     | '/pos'
     | '/products'
     | '/settings'
+    | '/api/public/send-test-push'
   id:
     | '__root__'
     | '/'
@@ -260,6 +271,7 @@ export interface FileRouteTypes {
     | '/_app/pos'
     | '/_app/products'
     | '/_app/settings'
+    | '/api/public/send-test-push'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -268,6 +280,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AdminLoginRoute: typeof AdminLoginRoute
   LoginRoute: typeof LoginRoute
+  ApiPublicSendTestPushRoute: typeof ApiPublicSendTestPushRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -412,6 +425,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/api/public/send-test-push': {
+      id: '/api/public/send-test-push'
+      path: '/api/public/send-test-push'
+      fullPath: '/api/public/send-test-push'
+      preLoaderRoute: typeof ApiPublicSendTestPushRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -459,6 +479,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AdminLoginRoute: AdminLoginRoute,
   LoginRoute: LoginRoute,
+  ApiPublicSendTestPushRoute: ApiPublicSendTestPushRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
