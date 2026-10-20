@@ -11,4 +11,4 @@
 - [x] Verify preview installation metadata and preserve existing sign-in/navigation.
 - [ ] Verify production worker/offline behavior — blocked until the updated website is published.
 - [ ] Generate PWABuilder AAB/APK — blocked by live publication and Android signing setup.
-- [ ] Verify Digital Asset Links — blocked by final package ID and signing certificate fingerprints.
+- [x] Deploy Digital Asset Links with real package ID and signing fingerprint — on-device full-screen check still pending.

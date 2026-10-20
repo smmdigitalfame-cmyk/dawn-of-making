@@ -36,7 +36,7 @@ Production worker installation, production offline reload, APK/AAB installation,
 
 ## Digital Asset Links and signing
 
-Serve the following shape at **https://dawn-of-making.lovable.app/.well-known/assetlinks.json**, publicly without authentication or redirects, with HTTP 200 and `application/json`:
+The real verification file is deployed at `public/.well-known/assetlinks.json` and served at **https://dawn-of-making.lovable.app/.well-known/assetlinks.json** (public, no auth, HTTP 200, `application/json`):
 
 ```json
 [
@@ -44,16 +44,16 @@ Serve the following shape at **https://dawn-of-making.lovable.app/.well-known/as
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "YOUR_FINAL_APPLICATION_ID",
-      "sha256_cert_fingerprints": ["YOUR_REAL_SIGNING_CERTIFICATE_SHA256"]
+      "package_name": "app.lovable.dawn_of_making.twa",
+      "sha256_cert_fingerprints": ["0F:42:D7:B7:87:B8:CA:40:5C:E9:AD:29:87:F4:39:07:A7:A9:22:B5:13:20:E3:B7:AD:00:26:9E:59:BA:1C:A2"]
     }
   }
 ]
 ```
 
-This is a documentation template, not a deployed verification file. Do not deploy placeholders. For a directly installed APK, use its actual signing certificate SHA-256. With Google Play App Signing, use the **app signing certificate** SHA-256 shown in Play Console's App integrity section, not merely the upload certificate. Add both actual fingerprints when supporting both independently signed direct APK and Play distributions. PWABuilder may supply initial asset-links output; update it for the final Play signing certificate as needed.
+This is what hides the browser URL bar: when the installed app's package name and signing certificate match this file, Android verifies the association and the TWA opens full-screen with no address bar. If the URL bar still shows, the installed APK's signing certificate does not match this fingerprint — re-check the certificate used to sign the APK (with Google Play App Signing, use the **app signing certificate** SHA-256 from Play Console's App integrity section, not the upload certificate). Add both fingerprints when supporting both a directly signed APK and Play distribution.
 
-Once real values are available, the file can be added at `public/.well-known/assetlinks.json` and published. Validate it against the installed application's certificate and package ID. Without a valid association, a TWA may display browser UI rather than the expected trusted full-screen experience. Additional trusted origins need their own verification.
+Remaining verification: install the signed APK on a real Android device and confirm the app opens full-screen without the URL bar. Until that on-device check passes, URL-hiding is configured but not confirmed.
 
 ## Push notifications
 
