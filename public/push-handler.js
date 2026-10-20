@@ -2,12 +2,18 @@
 self.addEventListener("push", (event) => {
   let data = {};
   try { data = event.data ? event.data.json() : {}; } catch (e) { data = { body: event.data && event.data.text() }; }
+  // Unique tag per push so Android never merges/replaces earlier order alerts.
+  const tag = data.tag || "order-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8);
   event.waitUntil(
     self.registration.showNotification(data.title || "Dawn of Making", {
       body: data.body || "",
       icon: "/icons/app-192.png",
       badge: "/icons/badge-96.png",
-      tag: data.tag || undefined,
+      tag: tag,
+      renotify: true,
+      silent: false,
+      vibrate: [200, 100, 200],
+      timestamp: Date.now(),
       data: { url: data.url || "/home" },
     }),
   );
