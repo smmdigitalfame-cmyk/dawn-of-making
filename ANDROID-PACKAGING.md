@@ -51,7 +51,7 @@ The real verification file is deployed at `public/.well-known/assetlinks.json` a
 ]
 ```
 
-This is what hides the browser URL bar: when the installed app's package name and signing certificate match this file, Android verifies the association and the TWA opens full-screen with no address bar. If the URL bar still shows, the installed APK's signing certificate does not match this fingerprint — re-check the certificate used to sign the APK (with Google Play App Signing, use the **app signing certificate** SHA-256 from Play Console's App integrity section, not the upload certificate). Add both fingerprints when supporting both a directly signed APK and Play distribution.
+This configures full-screen TWA verification when the installed app's package name and signing certificate match. A visible browser toolbar can also indicate runtime verification/browser issues; it does not by itself prove a signing mismatch. With Google Play App Signing, use the **app signing certificate** SHA-256 from Play Console's App integrity section, not the upload certificate. Add both fingerprints when supporting both a directly signed APK and Play distribution. Full-screen verification is separate from notification origin attribution.
 
 Remaining verification: install the signed APK on a real Android device and confirm the app opens full-screen without the URL bar. Until that on-device check passes, URL-hiding is configured but not confirmed.
 
@@ -71,6 +71,14 @@ The user requested real phone background push. The Firebase Messaging connection
 - Supply final signing fingerprints, publish asset links and verify on Android/Play.
 
 ## References
+
+### Notification attribution inspection — 20 October 2026
+
+The user's screenshot shows the website origin above the notification title. Inspection of the uploaded `Shopify.apk` confirms application label `Shopify`, `POST_NOTIFICATIONS`, enabled/exported `app.lovable.dawn_of_making.twa.DelegationService`, the TWA service intent filter and a valid small-icon reference. `@bool/enableNotification` resolves to true. Live Digital Asset Links contains the previously supplied package and fingerprint. Therefore simply enabling delegation again or re-publishing the website does not constitute a fix for this screenshot.
+
+The website push payload cannot control Android/browser attribution. Reinstallation and matching Digital Asset Links do not guarantee its removal. The next app-side investigation needs the PWABuilder Android source export (Include source code), preserving the package, key and existing website/account system. Inspect the delegation callback and browser-supplied notification fields, then build and test on the actual device; no changed APK or on-device fix has been verified in this investigation. Native delegation can customize a notification that reaches that callback, but cannot guarantee control over browser fallback notifications.
+
+Official customization example: https://github.com/GoogleChrome/android-browser-helper/blob/main/demos/twa-notification-delegation/src/main/java/com/google/androidbrowserhelper/demos/twa_notification_delegation/NotificationDelegationService.java
 
 - PWABuilder: https://www.pwabuilder.com/
 - PWABuilder source: https://github.com/pwa-builder/PWABuilder

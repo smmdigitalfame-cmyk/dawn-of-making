@@ -4,7 +4,7 @@
 - [x] Verify requested widths, navigation, dialogs, forms and desktop consistency.
 
 # Android installation
-- [ ] Remove website-origin attribution from Android notifications — inspect APK notification delegation; verify resulting package on a real phone.
+- [ ] Remove website-origin attribution from Android notifications — uploaded APK has delegation enabled and app label Shopify; blocked on PWABuilder Android source ZIP for app-side notification handling and real-phone verification, not a website or signing mismatch.
 - [x] Update installed app icons from the existing Shopify bag artwork.
 - [ ] Phone push without Firebase: built on Lovable Cloud — blocked only on publish + test on a real Android phone
 - [x] Audit the live website and existing backend.
