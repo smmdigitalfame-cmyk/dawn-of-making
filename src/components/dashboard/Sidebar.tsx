@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ChevronDown, X } from "lucide-react";
+import { ChevronDown, ShieldCheck, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useDashboard } from "@/lib/dashboard-store";
 import bagLogo from "@/assets/bag-logo.png.asset.json";
@@ -105,6 +105,13 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 
       <div className="mt-auto pt-4">
         <NavLink to="/settings" label="Settings" icon={iconSettings.url} onNavigate={onNavigate} />
+        <a
+          href="/admin"
+          className="mt-1 flex items-center gap-2.5 rounded-lg px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
+        >
+          <ShieldCheck className="h-[22px] w-[22px]" />
+          Admin panel
+        </a>
       </div>
     </div>
   );
