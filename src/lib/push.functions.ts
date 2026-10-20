@@ -26,6 +26,7 @@ export const savePushSubscription = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("push_subscriptions").upsert(data, { onConflict: "endpoint" });
     if (error) throw new Error(error.message);
+    console.log(`[push-register] endpoint=${data.endpoint.slice(-12)}`);
     return { ok: true };
   });
 

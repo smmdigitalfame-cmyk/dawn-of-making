@@ -29,6 +29,7 @@ import { Route as AppOrdersRouteImport } from './routes/_app/orders'
 import { Route as AppPosRouteImport } from './routes/_app/pos'
 import { Route as AppProductsRouteImport } from './routes/_app/products'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
+import { Route as ApiPublicPushAckRouteImport } from './routes/api/public/push-ack'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -129,6 +130,11 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
+const ApiPublicPushAckRoute = ApiPublicPushAckRouteImport.update({
+  id: '/api/public/push-ack',
+  path: '/api/public/push-ack',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -150,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/pos': typeof AppPosRoute
   '/products': typeof AppProductsRoute
   '/settings': typeof AppSettingsRoute
+  '/api/public/push-ack': typeof ApiPublicPushAckRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -171,6 +178,7 @@ export interface FileRoutesByTo {
   '/pos': typeof AppPosRoute
   '/products': typeof AppProductsRoute
   '/settings': typeof AppSettingsRoute
+  '/api/public/push-ack': typeof ApiPublicPushAckRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -194,6 +202,7 @@ export interface FileRoutesById {
   '/_app/pos': typeof AppPosRoute
   '/_app/products': typeof AppProductsRoute
   '/_app/settings': typeof AppSettingsRoute
+  '/api/public/push-ack': typeof ApiPublicPushAckRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -217,6 +226,7 @@ export interface FileRouteTypes {
     | '/pos'
     | '/products'
     | '/settings'
+    | '/api/public/push-ack'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -238,6 +248,7 @@ export interface FileRouteTypes {
     | '/pos'
     | '/products'
     | '/settings'
+    | '/api/public/push-ack'
   id:
     | '__root__'
     | '/'
@@ -260,6 +271,7 @@ export interface FileRouteTypes {
     | '/_app/pos'
     | '/_app/products'
     | '/_app/settings'
+    | '/api/public/push-ack'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -268,6 +280,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AdminLoginRoute: typeof AdminLoginRoute
   LoginRoute: typeof LoginRoute
+  ApiPublicPushAckRoute: typeof ApiPublicPushAckRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -412,6 +425,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/api/public/push-ack': {
+      id: '/api/public/push-ack'
+      path: '/api/public/push-ack'
+      fullPath: '/api/public/push-ack'
+      preLoaderRoute: typeof ApiPublicPushAckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -459,6 +479,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AdminLoginRoute: AdminLoginRoute,
   LoginRoute: LoginRoute,
+  ApiPublicPushAckRoute: ApiPublicPushAckRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
