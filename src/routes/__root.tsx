@@ -85,6 +85,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Dashora store admin: live sales dashboard, orders, customers, markets and multi-currency notifications.",
       },
       { name: "author", content: "Dashora" },
+      { name: "theme-color", content: "#101318" },
+      { name: "apple-mobile-web-app-title", content: "Dawn of Making" },
       { property: "og:title", content: "Dashora — Store Dashboard" },
       {
         property: "og:description",
@@ -101,6 +103,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/icons/apple-touch-icon.png" },
     ],
   }),
   shellComponent: RootShell,
@@ -125,6 +129,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useEffect(() => {
+    void import("@/lib/pwa-register").then(({ registerAppWorker }) => registerAppWorker()).catch((error) => {
+      console.warn("App offline support unavailable", error);
+    });
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

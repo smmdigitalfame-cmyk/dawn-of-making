@@ -14,3 +14,4 @@
 - App pages live under `src/routes/_app/` (sidebar+topbar layout); `/` redirects to `/home`. Money is stored as INR and converted at display time via `formatMoney`/`convertFromINR`.
 - User customizations (pencil editor: names, logo, badge colors, language, number/chart overrides) live in `custom` in dashboard-store; series overrides go through pure `customizeSeries` and labels through `translate` in dashboard-data — read metrics via `seriesFor`, never `getMetricSeries` directly in home components.
 - Responsive layouts use shrink-safe grid/flex tracks in existing components and shared viewport/safe-area rules in `src/styles.css`; keep desktop tokens and backend workflows unchanged to preserve the existing design.
+- PWA uses a static manifest and vite-plugin-pwa generateSW registered only through pwa-register; cache only the public offline page/icons and hashed assets, never account HTML or API responses, so installation preserves authentication and privacy.
