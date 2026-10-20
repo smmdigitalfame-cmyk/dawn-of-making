@@ -21,6 +21,7 @@ export default defineConfig({
         globPatterns: ["offline.html", "icons/*.png"],
         navigateFallback: null,
         cleanupOutdatedCaches: true,
+        importScripts: ["/push-handler.js"],
         runtimeCaching: [
           {
             urlPattern: ({ request, url }) => request.mode === "navigate" && !url.pathname.startsWith("/~oauth"),
