@@ -6,7 +6,7 @@ import {
   ADMIN_CHANNELS,
   loadAdminData,
   newId,
-  orderPushBody,
+  orderPushText,
   saveAdminData,
   type AdminData,
 } from "@/lib/admin-store";
@@ -48,7 +48,7 @@ function AdminPage() {
 
   const product = data.products.find((p) => p.id === productId) ?? data.products[0];
   const amountNum = Number(amount) || 0;
-  const preview = orderPushBody(data.storeName, items, amountNum, channel);
+  const preview = orderPushText(data.nextOrderNumber, items, amountNum, channel);
 
   const salesRows = useMemo(() => {
     const byProduct = new Map<string, { count: number; total: number }>();
