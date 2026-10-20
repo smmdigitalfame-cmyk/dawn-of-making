@@ -11,6 +11,7 @@ export interface AdminProduct {
 
 export interface AdminSale {
   id: string;
+  orderNumber: number;
   productName: string;
   items: number;
   amountUsd: number;
@@ -22,6 +23,7 @@ export interface AdminData {
   storeName: string;
   products: AdminProduct[];
   sales: AdminSale[];
+  nextOrderNumber: number;
 }
 
 export const ADMIN_CHANNELS = ["Online Store", "Facebook & Instagram", "Point of Sale"] as const;
@@ -36,6 +38,7 @@ const DEFAULT_DATA: AdminData = {
     { id: "p5", name: "Ceramic Mug", price: 20.5 },
   ],
   sales: [],
+  nextOrderNumber: 614,
 };
 
 export function loadAdminData(): AdminData {
@@ -48,6 +51,10 @@ export function loadAdminData(): AdminData {
       storeName: typeof parsed.storeName === "string" && parsed.storeName ? parsed.storeName : DEFAULT_DATA.storeName,
       products: Array.isArray(parsed.products) ? parsed.products : DEFAULT_DATA.products,
       sales: Array.isArray(parsed.sales) ? parsed.sales : [],
+      nextOrderNumber:
+        typeof parsed.nextOrderNumber === "number" && parsed.nextOrderNumber > 0
+          ? Math.floor(parsed.nextOrderNumber)
+          : DEFAULT_DATA.nextOrderNumber,
     };
   } catch {
     return DEFAULT_DATA;
@@ -59,10 +66,22 @@ export function saveAdminData(data: AdminData) {
   window.localStorage.setItem(KEY, JSON.stringify(data));
 }
 
-/** Shopify-style order push body: "HoH Fashion has a new order for 2 items totaling $70.49 from Online Store." */
-export function orderPushBody(storeName: string, items: number, amountUsd: number, channel: string): string {
+/**
+ * Shopify-style order push, matching the reference screenshot:
+ *   title: "Order #617"
+ *   body:  "from Shopify\n1752.00 USD, 8 items from Online Store"
+ */
+export function orderPushText(
+  orderNumber: number,
+  items: number,
+  amountUsd: number,
+  channel: string,
+): { title: string; body: string } {
   const noun = items === 1 ? "item" : "items";
-  return `${storeName} has a new order for ${items} ${noun} totaling $${amountUsd.toFixed(2)} from ${channel}.`;
+  return {
+    title: `Order #${orderNumber}`,
+    body: `from Shopify\n${amountUsd.toFixed(2)} USD, ${items} ${noun} from ${channel}`,
+  };
 }
 
 export function newId(): string {

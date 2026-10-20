@@ -6,7 +6,7 @@ import {
   ADMIN_CHANNELS,
   loadAdminData,
   newId,
-  orderPushBody,
+  orderPushText,
   saveAdminData,
   type AdminData,
 } from "@/lib/admin-store";
@@ -48,7 +48,7 @@ function AdminPage() {
 
   const product = data.products.find((p) => p.id === productId) ?? data.products[0];
   const amountNum = Number(amount) || 0;
-  const preview = orderPushBody(data.storeName, items, amountNum, channel);
+  const preview = orderPushText(data.nextOrderNumber, items, amountNum, channel);
 
   const salesRows = useMemo(() => {
     const byProduct = new Map<string, { count: number; total: number }>();
@@ -77,12 +77,14 @@ function AdminPage() {
     setSending(true);
     setPushMsg(null);
     try {
-      const r = await sendAdminPush({ data: { title: "Shopify", body: preview } });
+      const r = await sendAdminPush({ data: preview });
       update({
         ...data,
+        nextOrderNumber: data.nextOrderNumber + 1,
         sales: [
           {
             id: newId(),
+            orderNumber: data.nextOrderNumber,
             productName: product.name,
             items,
             amountUsd: amountNum,
@@ -232,8 +234,12 @@ function AdminPage() {
                 <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-white/40">
                   Notification preview
                 </p>
-                <p className="text-sm font-semibold text-white">Shopify</p>
-                <p className="text-sm text-white/80">{preview}</p>
+                <p className="text-sm font-semibold text-white">{preview.title}</p>
+                {preview.body.split("\n").map((line) => (
+                  <p key={line} className="text-sm text-white/80">
+                    {line}
+                  </p>
+                ))}
               </div>
 
               {pushMsg && (
@@ -333,7 +339,9 @@ function AdminPage() {
                   {data.sales.slice(0, 20).map((s) => (
                     <li key={s.id} className="flex items-center justify-between gap-3 px-4 py-3 text-sm">
                       <div className="min-w-0">
-                        <p className="truncate font-medium">{s.productName}</p>
+                        <p className="truncate font-medium">
+                          Order #{s.orderNumber} · {s.productName}
+                        </p>
                         <p className="text-xs text-white/40">
                           {new Date(s.createdAt).toLocaleString()} · {s.channel}
                         </p>
