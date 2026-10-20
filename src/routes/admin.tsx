@@ -1,6 +1,7 @@
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { Bell, LogOut, Package, Plus, Send, Trash2 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import { pushScheduleDelays, type PushScheduleMode } from "@/lib/admin-store";
 import { adminLogout, getAdminSession, sendAdminPush } from "@/lib/admin.functions";
 import {
   ADMIN_CHANNELS,
@@ -41,6 +42,11 @@ function AdminPage() {
   const [channel, setChannel] = useState<string>(ADMIN_CHANNELS[0]);
   const [pushMsg, setPushMsg] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
+  const [count, setCount] = useState(1);
+  const [mode, setMode] = useState<PushScheduleMode>("now");
+  const [minutes, setMinutes] = useState(5);
+  const dataRef = useRef(data);
+  const stopRef = useRef(false);
 
   // Product form
   const [newName, setNewName] = useState("");
@@ -72,33 +78,58 @@ function AdminPage() {
     if (p) setAmount(p.price.toFixed(2));
   }
 
+  dataRef.current = data;
+
+  async function sendOne() {
+    const cur = dataRef.current;
+    const text = orderPushText(cur.nextOrderNumber, items, amountNum, channel);
+    const r = await sendAdminPush({ data: text });
+    const next: AdminData = {
+      ...cur,
+      nextOrderNumber: cur.nextOrderNumber + 1,
+      sales: [
+        {
+          id: newId(),
+          orderNumber: cur.nextOrderNumber,
+          productName: product!.name,
+          items,
+          amountUsd: amountNum,
+          channel,
+          createdAt: Date.now(),
+        },
+        ...cur.sales,
+      ],
+    };
+    dataRef.current = next;
+    update(next);
+    return r;
+  }
+
   async function sendPush() {
     if (!product || amountNum <= 0 || items < 1) return;
     setSending(true);
     setPushMsg(null);
+    stopRef.current = false;
+    const delays = pushScheduleDelays(count, mode, minutes);
+    let sent = 0;
     try {
-      const r = await sendAdminPush({ data: preview });
-      update({
-        ...data,
-        nextOrderNumber: data.nextOrderNumber + 1,
-        sales: [
-          {
-            id: newId(),
-            orderNumber: data.nextOrderNumber,
-            productName: product.name,
-            items,
-            amountUsd: amountNum,
-            channel,
-            createdAt: Date.now(),
-          },
-          ...data.sales,
-        ],
-      });
-      setPushMsg(
-        r.devices === 0
-          ? "Notification saved, but no phone is registered yet. Turn on phone notifications from the dashboard first."
-          : `Notification sent to ${r.sent} of ${r.devices} phone(s).`,
-      );
+      for (let i = 0; i < delays.length; i++) {
+        const wait = delays[i] ?? 0;
+        if (wait > 0) {
+          setPushMsg(`Sent ${sent} of ${delays.length}. Next in ${Math.round(wait / 1000)} sec… (keep this page open)`);
+          const end = Date.now() + wait;
+          while (Date.now() < end && !stopRef.current) await new Promise((res) => setTimeout(res, 250));
+        }
+        if (stopRef.current) break;
+        const r = await sendOne();
+        sent++;
+        if (r.devices === 0) {
+          setPushMsg("No phone is registered yet. Turn on phone notifications from the dashboard first.");
+          return;
+        }
+        setPushMsg(`Sent ${sent} of ${delays.length} notification(s) to ${r.sent} of ${r.devices} phone(s).`);
+      }
+      if (stopRef.current) setPushMsg(`Stopped. ${sent} of ${delays.length} sent.`);
     } catch (e) {
       setPushMsg(e instanceof Error ? e.message : "Could not send the notification.");
     } finally {
@@ -248,14 +279,82 @@ function AdminPage() {
                 </p>
               )}
 
+              <div className="mt-5 rounded-xl border border-white/10 bg-black/30 p-4">
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-wide text-white/40">
+                  Notification settings
+                </p>
+                <label className="mb-1 block text-xs text-white/60" htmlFor="push-count">How many notifications</label>
+                <input
+                  id="push-count"
+                  type="number"
+                  min={1}
+                  max={100}
+                  value={count}
+                  disabled={sending}
+                  onChange={(e) => setCount(Math.min(100, Math.max(1, Number(e.target.value) || 1)))}
+                  className="mb-4 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-[#1ed149]"
+                />
+                <p className="mb-2 text-xs text-white/60">When to send</p>
+                <div className="grid gap-2 sm:grid-cols-3">
+                  {([
+                    ["now", "All at once", "Turant sab"],
+                    ["timed", "Within minutes", "Chune hue minute mein"],
+                    ["random", "Random", "2s, 4s, 3s, 1s…"],
+                  ] as const).map(([m, label, hint]) => (
+                    <button
+                      key={m}
+                      type="button"
+                      disabled={sending}
+                      onClick={() => setMode(m)}
+                      className={`rounded-lg border px-3 py-2 text-left text-sm transition ${
+                        mode === m ? "border-[#1ed149] bg-[#1ed149]/10 text-white" : "border-white/10 text-white/70 hover:bg-white/5"
+                      }`}
+                    >
+                      <span className="block font-semibold">{label}</span>
+                      <span className="block text-xs text-white/50">{hint}</span>
+                    </button>
+                  ))}
+                </div>
+                {mode === "timed" && (
+                  <div className="mt-4">
+                    <label className="mb-1 block text-xs text-white/60" htmlFor="push-minutes">Total time (minutes)</label>
+                    <input
+                      id="push-minutes"
+                      type="number"
+                      min={1}
+                      max={1440}
+                      value={minutes}
+                      disabled={sending}
+                      onChange={(e) => setMinutes(Math.min(1440, Math.max(1, Number(e.target.value) || 1)))}
+                      className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-[#1ed149]"
+                    />
+                    <p className="mt-2 text-xs text-white/50">
+                      {count} notification(s) in {minutes} min — one every {Math.round((minutes * 60) / count)} sec.
+                    </p>
+                  </div>
+                )}
+                {mode !== "now" && (
+                  <p className="mt-3 text-xs text-white/40">Keep this admin page open while notifications are being sent.</p>
+                )}
+              </div>
+
               <button
                 onClick={sendPush}
                 disabled={sending || !product || amountNum <= 0}
                 className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-[#1ed149] py-2.5 text-sm font-bold text-black transition hover:bg-[#52de76] disabled:opacity-60"
               >
                 <Send className="h-4 w-4" />
-                {sending ? "Sending…" : "Send push notification"}
+                {sending ? "Sending…" : count > 1 ? `Send ${count} notifications` : "Send push notification"}
               </button>
+              {sending && (
+                <button
+                  type="button"
+                  onClick={() => (stopRef.current = true)}
+                  className="mt-2 w-full rounded-lg border border-white/15 py-2 text-sm font-semibold text-white/80 hover:bg-white/5"
+                >
+                  Stop
+                </button>
+              )}
             </div>
           </section>
         ) : (

@@ -23,3 +23,14 @@ describe("orderPushText", () => {
     });
   });
 });
+
+import { pushScheduleDelays } from "@/lib/admin-store";
+describe("pushScheduleDelays", () => {
+  it("timed: 5 notifications in 10 minutes = 2 minutes apart", () => {
+    expect(pushScheduleDelays(5, "timed", 10)).toEqual([0, 120000, 120000, 120000, 120000]);
+  });
+  it("random waits between 1 and 4 seconds", () => {
+    const d = pushScheduleDelays(50, "random", 0).slice(1);
+    expect(d.every((x) => x >= 1000 && x <= 4000)).toBe(true);
+  });
+});
