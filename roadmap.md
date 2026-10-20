@@ -4,6 +4,7 @@
 - [x] Verify requested widths, navigation, dialogs, forms and desktop consistency.
 
 # Android installation
+- [ ] Remove website-origin attribution from Android notifications — inspect APK notification delegation; verify resulting package on a real phone.
 - [x] Update installed app icons from the existing Shopify bag artwork.
 - [ ] Phone push without Firebase: built on Lovable Cloud — blocked only on publish + test on a real Android phone
 - [x] Audit the live website and existing backend.
