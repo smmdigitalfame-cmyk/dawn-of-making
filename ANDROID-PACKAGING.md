@@ -11,7 +11,7 @@ This repository is TanStack Start/React, not Laravel. Its current login uses an 
 ## Changes prepared in this project
 
 - Static manifest: name **Dawn of Making**, stable ID/start URL/scope `/`, standalone display, any orientation, existing dark theme and background.
-- 192px, 512px, maskable 512px and Apple touch icons derived from the existing favicon. The favicon is a low-resolution source; these are valid size exports, not newly drawn high-resolution artwork.
+- 192px, 512px, maskable 512px and Apple touch icons use the website's existing Shopify bag artwork, with safe launcher margins. The source is a small raster image; these are valid size exports, not newly drawn high-resolution artwork or a claim that this is Shopify's official app.
 - Android's launch splash derives from the manifest name, icon and background. No new website splash screen or redesign.
 - `vite-plugin-pwa` generates `/sw.js`. One client wrapper registers it only in published production outside preview/iframe contexts, with `?sw=off` cleanup. Messaging workers are not touched.
 - A public offline page and icons are precached. Navigations are network-first; account/login HTML is not cached (only explicitly opted-in public responses could be cached). Same-origin hashed static assets may be cached. API calls, POST requests and account data are not cached by this worker. Existing application localStorage behavior is unchanged.
@@ -60,6 +60,8 @@ Once real values are available, the file can be added at `public/.well-known/ass
 Existing notifications are timer-driven in-page simulated order banners, **not background push**. Browser Push APIs being present does not establish delivery. No messaging worker, Push subscription registration, VAPID configuration, subscription storage or server-side push delivery implementation was found. The audit browser reported notifications denied; this is that browser's state, not a universal permission setting.
 
 Background push would require an explicit opt-in permission flow, a messaging worker, push subscriptions stored against the existing account system, private server-side sending credentials, delivery/retry/expired-subscription handling and Android foreground/background/device testing. For a Laravel source, these integrations must be implemented in its existing backend after confirming access. No push backend was added and push is not claimed to work.
+
+The user requested real phone background push. The Firebase Messaging connection was offered but declined, so registration and delivery remain blocked. Existing in-page notifications remain unchanged.
 
 ## Outstanding blockers
 
