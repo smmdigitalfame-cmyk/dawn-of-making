@@ -339,7 +339,9 @@ function AdminPage() {
                   {data.sales.slice(0, 20).map((s) => (
                     <li key={s.id} className="flex items-center justify-between gap-3 px-4 py-3 text-sm">
                       <div className="min-w-0">
-                        <p className="truncate font-medium">{s.productName}</p>
+                        <p className="truncate font-medium">
+                          Order #{s.orderNumber} · {s.productName}
+                        </p>
                         <p className="text-xs text-white/40">
                           {new Date(s.createdAt).toLocaleString()} · {s.channel}
                         </p>
