@@ -200,3 +200,60 @@
 .login-glow-a { background: var(--teal); top: -160px; left: -120px; }
 .login-glow-b { background: var(--success); bottom: -200px; right: -140px; opacity: .18; animation-delay: -6s; }
 @keyframes login-float { 0%,100% { transform: translate(0,0); } 50% { transform: translate(40px,30px); } }
+
+/* Viewport-fit rules shared by the existing dashboard layouts. */
+html { -webkit-text-size-adjust: 100%; }
+body { overflow-wrap: anywhere; }
+input, select, textarea { min-width: 0; }
+.mobile-sidebar > div:last-child { min-height: 0; flex: 1; }
+.account-dropdown { max-height: calc(100dvh - 5rem - env(safe-area-inset-top)); }
+.dashboard-topbar {
+  height: calc(60px + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
+  padding-left: max(0.5rem, env(safe-area-inset-left));
+  padding-right: max(0.5rem, env(safe-area-inset-right));
+}
+.dashboard-topbar ~ aside { top: calc(60px + env(safe-area-inset-top)); }
+.dashboard-topbar ~ main {
+  padding-top: calc(60px + env(safe-area-inset-top));
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.dashboard-topbar ~ main > div {
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
+.mobile-sidebar, .notification-panel {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.dashboard-editor {
+  padding-top: max(1rem, env(safe-area-inset-top));
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+.login-bg {
+  padding-top: max(2rem, env(safe-area-inset-top));
+  padding-bottom: max(2rem, env(safe-area-inset-bottom));
+}
+.live-banners { top: calc(4rem + env(safe-area-inset-top)); }
+@media (min-width: 640px) {
+  .dashboard-topbar {
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+  }
+}
+@media (min-width: 1024px) {
+  .dashboard-topbar {
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+  .dashboard-topbar ~ main > div {
+    padding-left: max(2rem, env(safe-area-inset-left));
+    padding-right: max(2rem, env(safe-area-inset-right));
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  button, a { touch-action: manipulation; }
+  button:not([aria-label^="Badge color"]):not([aria-label^="Round badge color"]),
+  nav a, .mobile-sidebar a { min-height: 44px; }
+  input:not([type="checkbox"]):not([type="file"]), select, textarea { font-size: 16px; }
+}
