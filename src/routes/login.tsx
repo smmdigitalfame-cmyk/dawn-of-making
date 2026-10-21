@@ -5,9 +5,8 @@ import bagLogo from "@/assets/shopify-bag.png.asset.json";
 import { getAuthSession, login } from "@/lib/auth.functions";
 
 export const Route = createFileRoute("/login")({
-  beforeLoad: async () => {
-    const s = await getAuthSession();
-    if (s.authenticated) throw redirect({ to: "/home" });
+  beforeLoad: () => {
+    throw redirect({ to: "/home" });
   },
   head: () => ({
     meta: [
