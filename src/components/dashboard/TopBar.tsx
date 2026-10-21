@@ -1,4 +1,4 @@
-import { Bell, ChevronDown, LogOut, Menu, Search, Store, UserRound } from "lucide-react";
+import { Bell, ChevronDown, LogOut, Menu, Search, ShieldCheck, Store, UserRound } from "lucide-react";
 import { logout } from "@/lib/auth.functions";
 import sidekickTop from "@/assets/icons/topbar-sidekick.png.asset.json";
 import { useState } from "react";
@@ -95,6 +95,13 @@ export function TopBar() {
                   <UserRound className="h-4 w-4 text-muted-foreground" />
                   Manage account
                 </button>
+                <a
+                  href="/admin"
+                  className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium hover:bg-muted"
+                >
+                  <ShieldCheck className="h-4 w-4 text-muted-foreground" />
+                  Admin panel
+                </a>
                 <button
                   onClick={async () => {
                     await logout();
