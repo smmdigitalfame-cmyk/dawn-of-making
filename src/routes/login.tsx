@@ -2,12 +2,11 @@ import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
 import { Eye, EyeOff, Loader2, Lock, User } from "lucide-react";
 import { useState } from "react";
 import bagLogo from "@/assets/shopify-bag.png.asset.json";
-import { getAuthSession, login } from "@/lib/auth.functions";
+import { login } from "@/lib/auth.functions";
 
 export const Route = createFileRoute("/login")({
-  beforeLoad: async () => {
-    const s = await getAuthSession();
-    if (s.authenticated) throw redirect({ to: "/home" });
+  beforeLoad: () => {
+    throw redirect({ to: "/home" });
   },
   head: () => ({
     meta: [
