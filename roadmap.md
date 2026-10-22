@@ -4,6 +4,7 @@
 - [x] Verify requested widths, navigation, dialogs, forms and desktop consistency.
 
 # Android installation
+- [ ] Build an APK with native, app-attributed order notifications while keeping browser push unchanged — blocked: Firebase Messaging connection could not be created because the requesting workspace role lacks permission and no accessible connection exists; workspace owner must connect it. Android Firebase app configuration and real-phone verification are also required before claiming delivery works. No new APK has been built for this request.
 - [ ] Remove website-origin attribution from Android notifications — uploaded APK has delegation enabled and app label Shopify; blocked on PWABuilder Android source ZIP for app-side notification handling and real-phone verification, not a website or signing mismatch.
 - [x] Update installed app icons from the existing Shopify bag artwork.
 - [ ] Phone push without Firebase: built on Lovable Cloud — blocked only on publish + test on a real Android phone
